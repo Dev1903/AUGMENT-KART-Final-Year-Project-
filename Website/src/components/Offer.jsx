@@ -7,7 +7,9 @@ const Offer = () => {
                 <div className="col">
                     <div className="row">
                         <div className="col-md-6 p-4 d-flex justify-content-center align-items-center">
-                            <div className="text">nywvihkvcyjrvjdhvkwvkcywrkv</div>
+                            <div className="text">
+                            <img src='' alt="" />
+                            </div>
                         </div>
                         <div className="col-md-6 p-4 d-flex justify-content-center align-items-center flex-column">
                             <div className="row pb-4">
