@@ -2,18 +2,18 @@ import React from 'react';
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="card border-0 shadow rounded-4 p-3" style={{minWidth: "300px", marginRight: "10px"}}>
+    <div className="card border-1 shadow rounded-4 p-3"  style={{minWidth: "300px", marginRight: "10px"}}>
       <div className="position-relative text-center">
         <span className="badge bg-success position-absolute top-0 start-0 m-2">-30%</span>
         <button className="btn btn-light rounded-circle position-absolute top-0 end-0 m-2">
           <i className="fa-regular fa-heart"></i>
         </button>
-        {/* <img
-          src={product.image}
+        <img
+          src="https://picsum.photos/80/80"
           alt={product.name}
           className="img-fluid my-3"
           style={{ height: '150px', objectFit: 'contain' }}
-        /> */}
+        />
       </div>
 
       <div className="card-body text-center" >

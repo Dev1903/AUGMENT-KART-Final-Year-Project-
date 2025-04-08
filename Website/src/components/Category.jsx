@@ -2,9 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 const categories = [
     "Fruits", "Vegetables", "Dairy", "Snacks", "Drinks",
-    "Non-Veg", "Spices", "Fruits", "Vegetables", "Dairy", "Snacks", "Drinks",
-    "Non-Veg", "Spices", "Fruits", "Vegetables", "Dairy", "Snacks", "Drinks",
-    "Non-Veg", "Spices"
+    "Non-Veg", "Spices",
 ];
 
 const Category = () => {
@@ -32,7 +30,7 @@ const Category = () => {
     }, []);
 
     return (
-        <div className="col">
+        <div className="col" id='category-section'>
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
@@ -50,22 +48,32 @@ const Category = () => {
 
                 <div className="row mt-3">
                     <div
-                        // ✅ CHANGED: added scroll ref + custom styles for horizontal scroll
-                        className="d-flex overflow-auto flex-nowrap w-100 px-2 category-scrollbar-hide justify-content-center align-items-center"
+                        className="d-flex justify-content-center overflow-auto flex-nowrap w-100 px-2 category-scrollbar-hide"
                         ref={scrollRef}
                         style={{
                             scrollBehavior: 'smooth',
-                            scrollbarWidth: 'none', // Firefox scrollbar hide
-                            msOverflowStyle: 'none', // IE scrollbar hide
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
                         }}
                     >
                         {categories.map((cat, idx) => (
                             <div
                                 key={idx}
-                                className="badge bg-light text-dark fs-6 me-3 py-2 px-3 rounded-pill flex-shrink-0"
-                                role="button"
+                                className="text-center mx-3 flex-shrink-0"
+                                style={{ width: '100px' }}
                             >
-                                {cat}
+                                <img
+                                    src="https://picsum.photos/80/80"
+                                    alt={cat}
+                                    className="rounded-circle mb-2"
+                                    style={{
+                                        width: '80px',
+                                        height: '80px',
+                                        objectFit: 'cover',
+                                        border: '2px solid #eee',
+                                    }}
+                                />
+                                <div className="fw-medium">{cat}</div>
                             </div>
                         ))}
                     </div>

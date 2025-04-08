@@ -27,7 +27,7 @@ const BestSeller = () => {
     }, []);
 
     return (
-        <div className="col">
+        <div className="col" id='bestseller-section'>
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
