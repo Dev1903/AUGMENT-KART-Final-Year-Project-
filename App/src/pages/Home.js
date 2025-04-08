@@ -5,6 +5,7 @@ import * as Updates from 'expo-updates';
 import AppHeader from '../components/AppHeader';
 import CategoryList from '../components/Categories';
 import NewlyLaunched from '../components/NewlyLaunched';
+import ImageSlider from '../components/ImageSlider';
 
 const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -34,6 +35,7 @@ const HomeScreen = () => {
     >
       <AppHeader title="Grocery Store" />
       <Searchbar placeholder="Search groceries..." style={{ margin: 10 }} />
+      <ImageSlider />
       <CategoryList />
       <NewlyLaunched />
     </ScrollView>
