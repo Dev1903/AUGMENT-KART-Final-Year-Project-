@@ -1,23 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
-import HomeScreen from './src/pages/Home';
+import 'react-native-gesture-handler';
+import BottomTabs from './src/components/BottomTabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { CartProvider } from './src/context/CartContext';
 
 export default function App() {
   return (
-<PaperProvider>
-  <View style={styles.container}>
-<HomeScreen />
-  </View>
-</PaperProvider>
+    <PaperProvider>
+      <NavigationContainer>
+        <CartProvider>
+          <BottomTabs />
+        </CartProvider>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

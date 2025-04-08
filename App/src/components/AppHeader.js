@@ -1,9 +1,9 @@
 import React from 'react';
 import { Appbar } from 'react-native-paper';
 
-const AppHeader = () => (
+const AppHeader = ({title}) => (
   <Appbar.Header>
-    <Appbar.Content title="Grocery Store" />
+    <Appbar.Content title={title} />
   </Appbar.Header>
 );
 

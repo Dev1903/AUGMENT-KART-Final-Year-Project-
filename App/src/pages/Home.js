@@ -30,8 +30,9 @@ const HomeScreen = () => {
           progressViewOffset={90}
         />
       }
+      style={{backgroundColor: "white"}}
     >
-      <AppHeader />
+      <AppHeader title="Grocery Store" />
       <Searchbar placeholder="Search groceries..." style={{ margin: 10 }} />
       <CategoryList />
       <NewlyLaunched />
