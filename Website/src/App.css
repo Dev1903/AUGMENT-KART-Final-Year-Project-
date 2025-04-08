@@ -1,0 +1,9 @@
+/* @import url("./css/header.css"); */
+.offer .text{
+    background-color: aqua;
+    outline: auto;
+}
+.category-scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
