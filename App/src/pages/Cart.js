@@ -13,9 +13,10 @@ const Cart = () => {
             {/* Footer at the bottom */}
             {cartItems.length > 0 && (
                 <View style={styles.footer}>
-                    <Text style={styles.total}>
-                        Total Cart Amount: <Text style={[styles.total, { fontSize: 30 }]}>₹{getTotal()}</Text>
-                    </Text>
+                    <View style={styles.totalBlock}>
+                        <Text style={styles.totalLabel}>Total Cart Amount</Text>
+                        <Text style={styles.totalValue}>₹{getTotal()}</Text>
+                    </View>
                     <Button mode="contained" onPress={() => clearCart()} style={{ backgroundColor: '#4caf50' }}>
                         Clear Cart
                     </Button>
@@ -38,7 +39,7 @@ const Cart = () => {
                                         icon="delete"
                                         iconColor="#4caf50"
                                         size={25}
-                                        style={{backgroundColor: "#e0dede"}}
+                                        style={{ backgroundColor: "#e0dede" }}
                                         onPress={() => removeFromCart(item.id)}
                                     />
                                 </View>
@@ -89,14 +90,20 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10,
         alignItems: 'center',
-        borderTopWidth: 1,
-        borderColor: '#eee',
-        backgroundColor: '#f9f9f9',
     },
-    total: {
-        fontSize: 18,
+    totalBlock: {
         flex: 1,
+        justifyContent: 'center',
+    },
+    totalLabel: {
+        fontSize: 16,
+        color: '#444',
         fontWeight: 'bold',
+    },
+    totalValue: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#000',
     },
     emptyContainer: {
         flex: 1,
