@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Button, Text, Title, Paragraph, Divider } from 'react-native-paper';
 import { useCart } from '../context/CartContext';
@@ -6,6 +6,13 @@ import { useCart } from '../context/CartContext';
 const ProductDetails = ({ route, navigation }) => {
   const { product } = route.params;
   const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1000);
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -20,10 +27,11 @@ const ProductDetails = ({ route, navigation }) => {
         </Paragraph>
         <Button
           mode="contained"
-          style={styles.button}
-          onPress={() => addToCart(product)} // Replace with real cart logic
+          style={[styles.button, { backgroundColor: added ? '#2aa52f' : '#4caf50' }]}
+          textColor="#ffffff"
+          onPress={handleAddToCart}
         >
-          Add to Cart
+          {added ? 'Added' : 'Add to Cart'}
         </Button>
       </View>
     </ScrollView>
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
-    backgroundColor: '#4caf50',
+    width: '100%', // Full width
   },
 });
 

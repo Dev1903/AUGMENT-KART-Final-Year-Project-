@@ -32,19 +32,23 @@ export const CartProvider = ({ children }) => {
         // Remove item completely
         return prev.filter((item) => item.id !== productId);
       }
-  
+
       // Otherwise, update quantity
       return prev.map((item) =>
         item.id === productId ? { ...item, quantity } : item
       );
     });
   };
-  
+
 
   const clearCart = () => setCartItems([]);
 
   const getTotal = () =>
-    cartItems.reduce((total, item) => total + item.quantity * parseFloat(item.price.replace(/[^\d]/g, '')), 0);
+    cartItems.reduce((total, item) => {
+      const priceMatch = item.price.match(/[\d.]+/); // match first number (can include decimals)
+      const price = priceMatch ? parseFloat(priceMatch[0]) : 0;
+      return total + item.quantity * price;
+    }, 0);
 
   return (
     <CartContext.Provider
