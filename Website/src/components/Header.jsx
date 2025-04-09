@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -16,7 +17,7 @@ const Header = () => {
         </div>
 
         {/* Center: Navbar + Search */}
-        <div className="col-md-6">
+        <div className="col-md-6 d-flex justify-content-center">
           <nav className="navbar navbar-expand-lg p-0">
             <div className="container-fluid p-0">
               <button
@@ -42,7 +43,7 @@ const Header = () => {
                   <li className="nav-item ms-3">
                     <a className="nav-link active" href="#bestseller-section">Bestseller</a>
                   </li>
-                  <li className="nav-item ms-3">
+                  <li className="nav-item mx-3">
                     <a className="nav-link active" href="#footer-section">Contact</a>
                   </li>
                 </ul>
@@ -56,7 +57,7 @@ const Header = () => {
                     aria-label="Search"
                   />
                   <button
-                    className="btn position-absolute end-0 top-50 translate-middle-y me-2 p-0 border-0 bg-transparent"
+                    className="position-absolute end-0 top-50 translate-middle-y me-2 p-0 border-0 bg-transparent"
                     type="submit"
                   >
                     <i className="fa-solid fa-magnifying-glass text-success"></i>
@@ -68,10 +69,12 @@ const Header = () => {
         </div>
 
         {/* Right: Icons */}
-        <div className="col-md-3 d-flex justify-content-center align-items-center gap-4">
-          <i className="fa-solid fa-cart-shopping fa-xl"></i>
-          <i className="fa-solid fa-heart fa-xl"></i>
-          <i className="fa-solid fa-user fa-xl"></i>
+        <div className="col-md-3 d-flex justify-content-center align-items-center gap-5">
+          <Link to="/cart"><i className="fa-solid fa-cart-shopping fa-xl"></i></Link>
+          <Link to="/wishlist"><i className="fa-solid fa-heart fa-xl"></i></Link>
+          <Link to="/profile"><i className="fa-solid fa-user fa-xl"></i></Link>
+          
+          
         </div>
       </div>
     </div>

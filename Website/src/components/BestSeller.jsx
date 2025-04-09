@@ -13,16 +13,13 @@ const BestSeller = () => {
     useEffect(() => {
         const el = scrollRef.current;
 
-        // ✅ ADDED: Convert mouse wheel scroll into horizontal scroll
         const wheelScroll = (e) => {
             if (e.deltaY === 0) return;
-            e.preventDefault(); // important to override default vertical scroll
+            e.preventDefault();
             el.scrollLeft += e.deltaY;
         };
 
-        // ✅ ADDED: use passive: false to allow preventDefault()
         el.addEventListener('wheel', wheelScroll, { passive: false });
-
         return () => el.removeEventListener('wheel', wheelScroll);
     }, []);
 
@@ -45,26 +42,16 @@ const BestSeller = () => {
 
                 <div className="row mt-3">
                     <div
-                        // ✅ CHANGED: added scroll ref + custom styles for horizontal scroll
-                        
-    className="d-flex overflow-auto flex-nowrap w-100 px-2 category-scrollbar-hide"
-
+                        className="d-flex overflow-auto flex-nowrap w-100 px-2 category-scrollbar-hide"
                         ref={scrollRef}
                         style={{
                             scrollBehavior: 'smooth',
-                            scrollbarWidth: 'none', // Firefox scrollbar hide
-                            msOverflowStyle: 'none', // IE scrollbar hide
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
                         }}
                     >
-                        {items.slice(0,10).map((item) => (
-                            <ProductCard 
-                                product={{
-                                    
-                                    name: item.name,
-                                    price: item.price,
-                                    rating: item.rating
-                                }}
-                            />
+                        {items.slice(0, 10).map((item) => (
+                            <ProductCard product={item} key={item.id} />
                         ))}
                     </div>
                 </div>
