@@ -10,7 +10,7 @@ const HomeStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ title: 'Details' }} />
+      <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
