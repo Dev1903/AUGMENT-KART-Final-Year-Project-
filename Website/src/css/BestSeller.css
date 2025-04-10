@@ -1,0 +1,30 @@
+.scroll-btn {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ced4da;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 0.375rem;
+}
+
+.scroll-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.bestseller-scroll-wrapper {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.bestseller-scroll-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}

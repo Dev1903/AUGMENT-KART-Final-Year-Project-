@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
+const URL = import.meta.env.VITE_APP_BACKEND_URL;
+
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [added, setAdded] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleAddClick = () => {
     addToCart(product);
@@ -16,38 +20,55 @@ const ProductCard = ({ product }) => {
     navigate('/cart');
   };
 
+  const handleWishlistClick = () => {
+    if (!liked) {
+      setLiked(true);
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+    } else {
+      setLiked(false);
+      setShowPopup(false); // Ensure popup disappears instantly when unliking
+    }
+  };
+
   return (
-    <div className="card border-1 shadow rounded-4 p-3" style={{ minWidth: "300px", marginRight: "10px" }}>
+    <div className="card border-1 shadow rounded-4 p-3 product-card">
       <div className="position-relative text-center">
-        <span className="badge bg-success position-absolute top-0 start-0 m-2">-30%</span>
         <img
-          src="https://picsum.photos/80/80"
+          src={`${URL}/images/product-images/${product.image}`}
           alt={product.name}
-          className="img-fluid my-3"
-          style={{ height: '150px', objectFit: 'contain' }}
+          className="img-fluid my-3 product-image"
         />
       </div>
 
       <div className="card-body text-center">
         <h6 className="card-title fw-bold">{product.name}</h6>
-        <p className="text-muted small">
-          1 UNIT <i className="fa-solid fa-star text-warning ms-1"></i> {product.rating}
-        </p>
-        <h5 className="fw-bold">₹{product.price}</h5>
+        <p className="fw-bold">{product.price}</p>
 
         <div className="d-flex justify-content-between align-items-center mt-3">
-          {/* Wishlist Icon */}
-          <button className="btn btn-outline-danger rounded-circle">
-            <i className="fa-regular fa-heart"></i>
-          </button>
+          <div style={{ position: 'relative' }}>
+            <button className="wishlist-btn" onClick={handleWishlistClick}>
+              <i
+                className="fa-solid fa-heart"
+                style={{ color: liked ? 'red' : '#4caf50' }}
+              ></i>
+            </button>
+            {showPopup && (
+              <div className="wishlist-popup">Added to Wishlist</div>
+            )}
+          </div>
 
-          {/* Add to Cart / Go to Cart Button */}
           {added ? (
             <button className="btn btn-success" onClick={handleGoToCart}>
               Go to Cart
             </button>
           ) : (
-            <button className="btn btn-outline-success" onClick={handleAddClick}>
+            <button
+              className="btn btn-outline-success"
+              onClick={handleAddClick}
+            >
               Add to Cart
             </button>
           )}
