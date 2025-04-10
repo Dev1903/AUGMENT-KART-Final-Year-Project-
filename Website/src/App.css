@@ -1,5 +1,10 @@
-@import url("./css/offer.css");
+@import url("./css/Offer.css");
 @import url("./css/ARChoicePage.css");
+@import url("./css/ProductCard.css");
+@import url("./css/Header.css");
+@import url("./css/BestSeller.css");
+@import url("./css/Category.css");
+@import url("./css/Footer.css");
 /* styles.css */
 
 @import url( 
@@ -26,14 +31,14 @@
 
 
 
-button, .btn, .view, .searchbtn { 
+.btn, .view, .searchbtn { 
   background-color: #4caf50 !important; 
   color: white !important; 
   border: none !important; 
   transition: background-color 0.3s ease; 
 }
 
-button:hover, .btn:hover, .view:hover, .searchbtn:hover { 
+.btn:hover, .view:hover, .searchbtn:hover { 
   background-color: #2aa52f !important; 
   color: white !important; 
 }

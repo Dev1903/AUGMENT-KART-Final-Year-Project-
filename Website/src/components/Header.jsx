@@ -60,7 +60,7 @@ const Header = () => {
                     className="position-absolute end-0 top-50 translate-middle-y me-2 p-0 border-0 bg-transparent"
                     type="submit"
                   >
-                    <i className="fa-solid fa-magnifying-glass text-success"></i>
+                    <i className="fa-solid fa-magnifying-glass"></i>
                   </button>
                 </form>
               </div>
