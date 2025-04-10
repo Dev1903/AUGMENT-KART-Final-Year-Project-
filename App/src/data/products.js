@@ -42,10 +42,10 @@ export const products = [
     { id: '34', name: 'Butter', price: '₹50/100g', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?butter', createdAt: '2025-04-05T11:00:00Z' },
     { id: '35', name: 'Yogurt', price: '₹20/cup', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?yogurt', createdAt: '2025-04-04T10:00:00Z' },
     { id: '36', name: 'Curd', price: '₹15/pack', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?curd', createdAt: '2025-04-03T09:00:00Z' },
-    { id: '37', name: 'Lassi', price: '₹20/bottle', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?lassi', createdAt: '2025-04-02T08:00:00Z' },
+    { id: '37', name: 'Lassi', price: '₹20/bottle', category: 'Drinks', image: 'https://source.unsplash.com/150x150/?lassi', createdAt: '2025-04-02T08:00:00Z' },
     { id: '38', name: 'Cream', price: '₹70/pack', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?cream', createdAt: '2025-04-01T07:00:00Z' },
     { id: '39', name: 'Milk Powder', price: '₹180/500g', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?milkpowder', createdAt: '2025-03-31T06:00:00Z' },
-    { id: '40', name: 'Flavored Milk', price: '₹25/bottle', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?flavoredmilk', createdAt: '2025-03-30T05:00:00Z' },
+    { id: '40', name: 'Flavored Milk', price: '₹25/bottle', category: 'Drinks', image: 'https://source.unsplash.com/150x150/?flavoredmilk', createdAt: '2025-03-30T05:00:00Z' },
 
     // NonVeg
     { id: '41', name: 'Chicken', price: '₹200/kg', category: 'NonVeg', image: 'https://source.unsplash.com/150x150/?chicken', createdAt: '2025-04-08T11:00:00Z' },
@@ -55,8 +55,8 @@ export const products = [
     { id: '45', name: 'Prawns', price: '₹300/kg', category: 'NonVeg', image: 'https://source.unsplash.com/150x150/?prawns', createdAt: '2025-04-04T07:00:00Z' },
 
     // Spices
-    { id: '46', name: 'Turmeric', price: '₹60/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?turmeric', createdAt: '2025-04-03T06:00:00Z' },
-    { id: '47', name: 'Cumin', price: '₹50/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?cumin', createdAt: '2025-04-02T05:00:00Z' },
+    { id: '46', name: 'Turmeric Powder', price: '₹60/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?turmeric', createdAt: '2025-04-03T06:00:00Z' },
+    { id: '47', name: 'Cumin Powder', price: '₹50/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?cumin', createdAt: '2025-04-02T05:00:00Z' },
     { id: '48', name: 'Coriander Powder', price: '₹40/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?coriander', createdAt: '2025-04-01T04:00:00Z' },
     { id: '49', name: 'Red Chili Powder', price: '₹70/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?chili', createdAt: '2025-03-31T03:00:00Z' },
     { id: '50', name: 'Black Pepper', price: '₹90/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?pepper', createdAt: '2025-03-30T02:00:00Z' },
@@ -67,10 +67,10 @@ export const products = [
     { id: '55', name: 'Mustard Seeds', price: '₹30/100g', category: 'Spices', image: 'https://source.unsplash.com/150x150/?mustard', createdAt: '2025-03-25T09:00:00Z' },
 
     // Filler (repeat few categories to make 60)
-    { id: '56', name: 'Garlic', price: '₹60/kg', category: 'Vegetables', image: 'https://source.unsplash.com/150x150/?garlic', createdAt: '2025-03-24T08:00:00Z' },
-    { id: '57', name: 'Green Chilli', price: '₹50/kg', category: 'Vegetables', image: 'https://source.unsplash.com/150x150/?greenchilli', createdAt: '2025-03-23T07:00:00Z' },
-    { id: '58', name: 'Toned Milk', price: '₹26/L', category: 'Dairy', image: 'https://source.unsplash.com/150x150/?tonedmilk', createdAt: '2025-03-22T06:00:00Z' },
-    { id: '59', name: 'Lemon', price: '₹70/kg', category: 'Fruits', image: 'https://source.unsplash.com/150x150/?lemon', createdAt: '2025-03-21T05:00:00Z' },
-    { id: '60', name: 'Cabbage', price: '₹30/kg', category: 'Vegetables', image: 'https://source.unsplash.com/150x150/?cabbage', createdAt: '2025-03-20T04:00:00Z' },
+    { id: '56', name: 'Pepsi', price: '₹90/2L', category: 'Drinks', image: 'https://source.unsplash.com/150x150/?garlic', createdAt: '2025-03-24T08:00:00Z' },
+    { id: '57', name: 'Water Bottle', price: '₹20/L', category: 'Drinks', image: 'https://source.unsplash.com/150x150/?greenchilli', createdAt: '2025-03-23T07:00:00Z' },
+    { id: '58', name: 'Milk Shake', price: '₹26/L', category: 'Drinks', image: 'https://source.unsplash.com/150x150/?tonedmilk', createdAt: '2025-03-22T06:00:00Z' },
+    { id: '59', name: 'Cocacola', price: '₹40/750mL', category: 'Drinks', image: 'https://source.unsplash.com/150x150/?lemon', createdAt: '2025-03-21T05:00:00Z' },
+    { id: '60', name: 'Sprite', price: '₹50/1.25L', category: 'Drinks', image: 'https://source.unsplash.com/150x150/?cabbage', createdAt: '2025-03-20T04:00:00Z' },
 ];
 
