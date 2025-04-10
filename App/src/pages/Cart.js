@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet, SafeAreaView, Image } from 'react-native';
 import { Text, Button, Card, IconButton } from 'react-native-paper';
 import { useCart } from '../context/CartContext';
 import AppHeader from '../components/AppHeader';
+import {EXPO_APP_BACKEND_URL} from "@env"
 
 const Cart = () => {
     const { cartItems, removeFromCart, updateQuantity, getTotal, clearCart } = useCart();
@@ -28,21 +29,23 @@ const Cart = () => {
                 renderItem={({ item }) => (
                     <Card style={styles.card}>
                         <View style={styles.cardContent}>
-                            <Image
-                                source={{ uri: 'https://picsum.photos/100' }} // Replace with item.image if you have it
-                                style={styles.image}
-                            />
+                            <View style={styles.imageWrapper}>
+                                <Image
+                                    source={{ uri: `${EXPO_APP_BACKEND_URL}/images/product-images/${item.image}` }}
+                                    style={styles.image}
+                                />
+                                <IconButton
+                                    icon="delete"
+                                    iconColor="#4caf50"
+                                    size={20}
+                                    style={styles.deleteIcon}
+                                    onPress={() => removeFromCart(item.id)}
+                                />
+                            </View>
                             <View style={styles.details}>
-                                <View style={styles.headerRow}>
-                                    <Text style={styles.name}>{item.name}</Text>
-                                    <IconButton
-                                        icon="delete"
-                                        iconColor="#4caf50"
-                                        size={25}
-                                        style={{ backgroundColor: "#e0dede" }}
-                                        onPress={() => removeFromCart(item.id)}
-                                    />
-                                </View>
+
+                                <Text style={styles.name}>{item.name}</Text>
+
                                 <Text style={styles.price}>Price: {item.price}</Text>
                                 <Card.Actions style={styles.quantityRow}>
                                     <IconButton
@@ -118,10 +121,10 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 150,
-        height: '90%',
+        height: 150,
         borderRadius: 8,
         borderBottomLeftRadius: 8,
-        margin: 10
+        // margin: 10
     },
     cardContent: {
         flexDirection: 'row',
@@ -157,6 +160,21 @@ const styles = StyleSheet.create({
         minWidth: 24,
         textAlign: 'center',
     },
+    imageWrapper: {
+        position: 'relative',
+        width: 150,
+        height: '100%',
+        margin: 10,
+    },
+
+    deleteIcon: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        backgroundColor: '#e0dede',
+        zIndex: 1,
+    },
+
 
 });
 

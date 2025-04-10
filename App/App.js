@@ -4,6 +4,7 @@ import BottomTabs from './src/components/BottomTabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { CartProvider } from './src/context/CartContext';
 import { WishlistProvider } from './src/context/WishlistContext';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <WishlistProvider>
           <CartProvider>
             <BottomTabs />
+            <StatusBar style='dark' backgroundColor='white' />
           </CartProvider>
         </WishlistProvider>
       </NavigationContainer>

@@ -5,20 +5,22 @@ import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import AppHeader from '../components/AppHeader';
 
+import {EXPO_APP_BACKEND_URL} from "@env"
+
 const ProductDetails = ({ route }) => {
   const { product } = route.params;
   const { addToCart, updateQuantity, cartItems } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const isFavorite = isInWishlist(item.id); // or product.id
+  const isFavorite = isInWishlist(product._id); // or product.id
 
   const [added, setAdded] = useState(false);
   const [showQuantityControls, setShowQuantityControls] = useState(false);
 
-  const cartItem = cartItems.find((item) => item.id === product.id);
+  const cartItem = cartItems.find((item) => item._id === product._id);
   const quantity = cartItem ? cartItem.quantity : 0;
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart({ ...product, id: product._id });
     setAdded(true);
     setTimeout(() => {
       setAdded(false);
@@ -27,11 +29,11 @@ const ProductDetails = ({ route }) => {
   };
 
   const handleIncrement = () => {
-    updateQuantity(product.id, quantity + 1);
+    updateQuantity(product._id, quantity + 1);
   };
 
   const handleDecrement = () => {
-    updateQuantity(product.id, quantity - 1);
+    updateQuantity(product._id, quantity - 1);
     if (quantity - 1 <= 0) {
       setShowQuantityControls(false);
     }
@@ -48,7 +50,7 @@ const ProductDetails = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       <AppHeader title="Details" />
-      <Image source={{ uri: 'https://picsum.photos/200' }} style={styles.image} />
+      <Image source={{ uri: `${EXPO_APP_BACKEND_URL}/images/product-images/${product.image}` }} style={styles.image} />
       <View style={styles.content}>
         <View style={styles.titleRow}>
           <Title style={styles.title}>{product.name}</Title>
@@ -58,12 +60,11 @@ const ProductDetails = ({ route }) => {
             iconColor="#4caf50"
             style={{ backgroundColor: "#e0dede" }}
             onPress={() => {
-              isFavorite ? removeFromWishlist(product.id) : addToWishlist(product);
+              isFavorite ? removeFromWishlist(product._id) : addToWishlist(product);
             }}
           />
         </View>
         <Text style={styles.price}>{product.price}</Text>
-        <Text style={styles.category}>Category: {product.category}</Text>
         <Divider style={{ marginVertical: 10 }} />
         <Paragraph>
           Fresh and high-quality {product.name} available now! Perfect for your daily grocery needs.
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    width: '90%',
+    width: 350,
     height: 350,
     alignSelf: 'center',
     borderRadius: 20,
@@ -109,11 +110,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 8,
-  },
-  category: {
-    fontStyle: 'italic',
-    color: '#666',
-    marginBottom: 8,
   },
   button: {
     marginTop: 20,
