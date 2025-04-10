@@ -4,7 +4,7 @@ import {EXPO_APP_BACKEND_URL} from "@env"
 const URL = `${EXPO_APP_BACKEND_URL}/products`
 
 // Fetch Products
-export const getSortedProducts = async ({ limit = 10, sortBy = 'createdAt', order = 'desc' }) => {
+export const getSortedProducts = async ({ limit, sortBy, order }) => {
     try {
       const response = await axios.get(
         `${URL}/latest?limit=${limit}&sortBy=${sortBy}&order=${order}`

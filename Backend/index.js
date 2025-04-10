@@ -5,6 +5,7 @@ import cors from 'cors';
 import Connection from './db.js';
 import categoryRoutes from './routes/Category.js'
 import productRoutes from './routes/Products.js'
+import userRoutes from './routes/User.js'
 
 const app = express()
 const PORT = 8000;
@@ -16,6 +17,7 @@ Connection()
 
 app.use('/category', categoryRoutes)
 app.use('/products', productRoutes)
+app.use('/user', productRoutes)
 app.use('/images/category-logo', express.static('images/category-logo'))
 app.use('/images/product-images', express.static('images/product-images'))
 

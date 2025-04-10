@@ -6,6 +6,7 @@ import AppHeader from '../components/AppHeader';
 import CategoryList from '../components/Categories';
 import NewlyLaunched from '../components/NewlyLaunched';
 import ImageSlider from '../components/ImageSlider';
+import BestSeller from '../components/BestSeller';
 
 const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -38,6 +39,7 @@ const HomeScreen = () => {
       <ImageSlider />
       <CategoryList />
       <NewlyLaunched />
+      <BestSeller />
     </ScrollView>
   );
 };

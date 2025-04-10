@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
     password: String,
     address: String,
     mobile: String,
-    image : {type: String, default: null}
+    image : {type: String, default: "default"}
 });
 
 const User = mongoose.model('User', userSchema);

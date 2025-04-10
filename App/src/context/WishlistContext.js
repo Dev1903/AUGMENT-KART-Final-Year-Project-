@@ -1,32 +1,56 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
-  const addToWishlist = (item) => {
-    setWishlistItems((prev) => {
-      if (!prev.some((wishlistItem) => wishlistItem._id === item.id)) {
-        return [...prev, item];
+  // 🔁 Load wishlist from storage when the app starts
+  useEffect(() => {
+    const loadWishlist = async () => {
+      try {
+        const storedWishlist = await AsyncStorage.getItem('wishlist');
+        console.log("Stored Wishlist: ",storedWishlist)
+        if (storedWishlist) {
+          setWishlistItems(JSON.parse(storedWishlist));
+        }
+      } catch (error) {
+        console.log('Failed to load wishlist:', error);
       }
-      return prev;
-    });
+    };
+    loadWishlist();
+  }, []);
+  
+  // 💾 Save wishlist to storage every time it changes
+  useEffect(() => {
+    const saveWishlist = async () => {
+      try {
+        await AsyncStorage.setItem('wishlist', JSON.stringify(wishlistItems));
+      } catch (error) {
+        console.log('Failed to save wishlist:', error);
+      }
+    };
+    saveWishlist();
+  }, [wishlistItems]);
+
+  const addToWishlist = (item) => {
+    if (!wishlistItems.find((x) => x._id === item._id)) {
+      setWishlistItems([...wishlistItems, item]);
+    }
   };
 
   const removeFromWishlist = (id) => {
-    setWishlistItems((prev) => prev.filter((item) => item._id !== id));
-  };
-
-  const isInWishlist = (id) => {
-    return wishlistItems.some((item) => item._id === id);
+    setWishlistItems(wishlistItems.filter((item) => item._id !== id));
   };
 
   const clearWishlist = () => setWishlistItems([]);
 
+  const isInWishlist = (id) => wishlistItems.some((item) => item._id === id);
+
   return (
     <WishlistContext.Provider
-      value={{ wishlistItems, addToWishlist, removeFromWishlist, isInWishlist, clearWishlist }}
+      value={{ wishlistItems, addToWishlist, removeFromWishlist, clearWishlist, isInWishlist }}
     >
       {children}
     </WishlistContext.Provider>
