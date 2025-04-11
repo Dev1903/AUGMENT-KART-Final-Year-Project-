@@ -3,9 +3,12 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginUser } from '../../api/User_API';
+import { useNavigation } from '@react-navigation/native'; 
+import { CommonActions } from '@react-navigation/native';
 
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
+  const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -14,10 +17,11 @@ const LoginScreen = ({ navigation }) => {
     const result = await loginUser({ username, password });
 
     if (result.status === 200) {
-      await AsyncStorage.setItem('userToken', JSON.stringify(result.data)); // JWT token
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'BottomTabs' }], // this triggers re-render in App.js
+      await AsyncStorage.setItem('userToken', JSON.stringify(result.data)).then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'BottomTabs' }],
+        });
       });
     } else {
       Alert.alert("Login Failed", result.message || 'Check credentials');

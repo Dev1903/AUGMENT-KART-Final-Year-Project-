@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.bristidev.burman2004.augmentcart"
     },
     "web": {
       "favicon": "./assets/icon.png"

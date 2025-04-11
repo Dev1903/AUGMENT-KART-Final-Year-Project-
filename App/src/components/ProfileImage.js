@@ -16,7 +16,7 @@ const ProfileImage = ({ uri, name, size = 40 }) => {
           const decoded = jwtDecode(token)
           const userFromDB = await getUser(decoded.id);
           setUserInfo(userFromDB);
-          console.log("PROFILE IMAGE:" , userInfo)
+          // console.log("PROFILE IMAGE:" , userInfo)
         } else {
           console.log('No token found');
         }

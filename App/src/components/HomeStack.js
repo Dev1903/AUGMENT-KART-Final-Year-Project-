@@ -18,7 +18,9 @@ const HomeStack = () => {
       <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ headerShown: false }} />
       <Stack.Screen name="ProductsPerCategory" component={ProductsPerCategory} options={{ headerShown: false }} />
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-      <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen}  />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
 
     </Stack.Navigator>
   );

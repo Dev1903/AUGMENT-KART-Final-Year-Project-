@@ -43,17 +43,14 @@ export default function App() {
         <WishlistProvider>
           <CartProvider>
             <StatusBar style='dark' backgroundColor='white' />
-            <Stack.Navigator screenOptions={{headerShown:false}}>
-              {isLoggedIn ? (
-                // Authenticated — Show tabs
+            <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName={isLoggedIn? 'BottomTabs' : 'Login'}>
+
                 <Stack.Screen name="BottomTabs" component={BottomTabs} />
-              ) : (
-                // Not Authenticated — Show login/register flow
-                <>
+             
                   <Stack.Screen name="Login" component={LoginScreen} />
                   <Stack.Screen name="Register" component={RegisterScreen} />
-                </>
-              )}
+                
+             
             </Stack.Navigator>
           </CartProvider>
         </WishlistProvider>
