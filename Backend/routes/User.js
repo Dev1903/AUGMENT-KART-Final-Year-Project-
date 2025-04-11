@@ -5,70 +5,69 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+dotenv.config();
 
-// Add User
-const userUpload = multer({ storage });
+const router = express.Router();
+// const storage = multer.memoryStorage();
 
-// Ensure bcrypt is imported
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+
+// Storage configuration for user images
+// const userStorage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "images/user-images");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname);
+//   },
+// });
+// const userUpload = multer({ storage: userStorage });
+
+
+//Register User
 router.post("/addUser", async (req, res) => {
   try {
-    // Check if user already exists
+    console.log("Req BODYYY:", req.body);
+
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       return res.status(409).json("User already exists. Please log in.");
     }
 
-    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    // Create a new user instance
     const user = new User({
       name: req.body.name,
       email: req.body.email,
-      password: hashedPassword, // Store hashed password
-      address: req.body.address,
+      password: hashedPassword,
       mobile: req.body.mobile,
     });
 
-    // Save the user to the database
     await user.save();
-    res.status(201).json("User Successfully Inserted");
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET_TOKEN,
+      { expiresIn: '7d' }
+    );
+
+    res.status(201).json({ message: "User Registered Successfully", token });
   } catch (error) {
     console.error("Error while adding user:", error);
     res.status(500).json("Error While Adding User");
   }
 });
 
-// Update User
-router.put("/updateUser/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { firstName, lastName, address, mobile, email } = req.body;
-
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).json("User Not Found");
-    }
-
-    // Update fields if they are provided, otherwise retain current values
-    user.name = firstName && lastName ? `${firstName} ${lastName}` : user.name;
-    user.address = address || user.address;
-    user.mobile = mobile || user.mobile;
-    user.email = email || user.email;
-
-    await user.save(); // Save updated user
-    res.status(200).json("User Successfully Updated");
-  } catch (error) {
-    console.error("Error While Updating User:", error);
-    res.status(500).json("Error While Updating User");
-  }
-});
-
-
 // Login User
 router.post("/loginUser", async (req, res) => {
   const { username, password } = req.body;
+  console.log(req.body)
 
   try {
     // Check if admin credentials are used
@@ -78,7 +77,7 @@ router.post("/loginUser", async (req, res) => {
 
     // If admin credentials are correct, respond with 201
     if (isAdmin && isAdminMatch) {
-      return res.status(201).json({ message: "Admin logged in successfully" });
+      return res.status(200).json({ message: "Admin logged in successfully" });
     }
     const user = await User.findOne({
       $or: [{ email: username }, { mobile: username }],
@@ -88,6 +87,7 @@ router.post("/loginUser", async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
+    console.log(user)
 
     
 
@@ -99,23 +99,86 @@ router.post("/loginUser", async (req, res) => {
     }
 
     // Generate JWT for normal user
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_TOKEN, {
+      expiresIn: "7d",
     });
 
-    return res.status(200).json(token);
+    return res.status(200).json({ message: "User Registered Successfully", token });
   } catch (error) {
     console.error(error); // Log any errors for debugging
     return res.status(500).send("Server error");
   }
 });
 
+// Update User
+router.put("/updateUser/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { firstName, lastName, address, mobile, email, image, imageType } = req.body;
+
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json("User Not Found");
+
+    // Set image upload directory
+    const uploadDir = path.join(__dirname, '../images/user-images');
+
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    // Handle image deletion
+    if (image === 'default') {
+      if (user.image && user.image !== 'default') {
+        const oldImagePath = path.join(uploadDir, user.image);
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+        user.image = 'default';
+      }
+    }
+
+    // Save new image if provided and not "default"
+    else if (image && imageType) {
+      if (user.image && user.image !== 'default') {
+        const oldImagePath = path.join(uploadDir, user.image);
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      }
+
+      const ext = imageType.split('/')[1] || 'jpg';
+      const buffer = Buffer.from(image, 'base64');
+      const filename = `user-${id}-${Date.now()}.${ext}`;
+      const filePath = path.join(uploadDir, filename);
+
+      fs.writeFileSync(filePath, buffer);
+      user.image = filename;
+    }
+
+    // Update other fields
+    user.name = firstName && lastName ? `${firstName} ${lastName}` : user.name;
+    user.address = address || user.address;
+    user.mobile = mobile || user.mobile;
+    user.email = email || user.email;
+
+    await user.save();
+    res.status(200).json("User Successfully Updated");
+  } catch (error) {
+    console.error("Error While Updating User:", error);
+    res.status(500).json("Error While Updating User");
+  }
+});
+
+
+
+
 // Fetch a specific user by their userId
 router.get("/getUser/:id", async (req, res) => {
   try {
     const userId = req.params.id;
     //console.log(userId); // Get the userId from the request parameters
-    const user = await User.findById(userId); // Fetch user from the database using the userId
+    const user = await User.findById(userId).select("-password"); // Fetch user from the database using the userId
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

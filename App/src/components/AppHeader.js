@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Appbar, Menu } from 'react-native-paper';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ProfileImage from './ProfileImage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ProfileImage from './ProfileImage';
 
-const AppHeader = ({ title }) => {
-  const [visible, setVisible] = useState(false);
+const AppHeader = ({ title, rightComponent }) => {
   const navigation = useNavigation();
+  const [menuVisible, setMenuVisible] = useState(false);
 
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
+  const openMenu = () => setMenuVisible(true);
+  const closeMenu = () => setMenuVisible(false);
 
   const handleProfile = () => {
     closeMenu();
@@ -19,49 +19,62 @@ const AppHeader = ({ title }) => {
 
   const handleLogout = async () => {
     closeMenu();
-    // Example: clear auth token or user data
-    await AsyncStorage.removeItem('userToken'); // Adjust as per your app
+    await AsyncStorage.removeItem('userToken');
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Login' }], // Adjust according to your stack
+      routes: [{ name: 'Login' }],
     });
   };
 
   return (
-    <Appbar.Header style={{ backgroundColor: 'white', justifyContent: 'space-between' }}>
-      <Appbar.Content title={title} titleStyle={{ fontWeight: '600', fontSize: 24 }} />
+    <Appbar.Header style={styles.header}>
+      <Appbar.Content title={title} titleStyle={styles.title} />
 
-      <Menu
-        visible={visible}
-        onDismiss={closeMenu}
-        anchor={
-          <TouchableOpacity onPress={openMenu}>
-            <ProfileImage uri={null} name={"Guest"} />
-          </TouchableOpacity>
-        }
-        style={{ top: 100, width: 150,paddingRight: 15 }}
-        contentStyle={{
-          paddingVertical: 0,
-          marginVertical: 0,
-          borderRadius: 10,
-          borderBottomLeftRadius: 10,
-          borderBottomRightRadius: 10,
-          overflow: "hidden",
-        }}
-      >
-        <Menu.Item onPress={handleProfile} title="Profile" />
-        <Menu.Item onPress={handleLogout} title="Logout" style={{ backgroundColor: "#ff5959" }} />
-      </Menu>
+      {/* If rightComponent === undefined → show profile image & menu */}
+      {rightComponent === undefined ? (
+        <Menu
+          visible={menuVisible}
+          onDismiss={closeMenu}
+          anchor={
+            <TouchableOpacity onPress={openMenu}>
+              <ProfileImage uri={null} name="Guest" />
+            </TouchableOpacity>
+          }
+          style={styles.menu}
+          contentStyle={styles.menuContent}
+        >
+          <Menu.Item onPress={handleProfile} title="Profile" />
+          <Menu.Item onPress={handleLogout} title="Logout" style={styles.logoutItem} />
+        </Menu>
+      ) : rightComponent === null ? null : rightComponent}
+
     </Appbar.Header>
   );
 };
 
 const styles = StyleSheet.create({
-  profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 15,
+  header: {
+    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    marginVertical:5
+  },
+  title: {
+    fontWeight: '600',
+    fontSize: 24,
+  },
+  menu: {
+    top: 100,
+    width: 150,
+    paddingRight: 15,
+  },
+  menuContent: {
+    paddingVertical: 0,
+    marginVertical: 0,
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  logoutItem: {
+    backgroundColor: '#ff5959',
   },
 });
 

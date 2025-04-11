@@ -11,7 +11,7 @@ export const WishlistProvider = ({ children }) => {
     const loadWishlist = async () => {
       try {
         const storedWishlist = await AsyncStorage.getItem('wishlist');
-        console.log("Stored Wishlist: ",storedWishlist)
+        // console.log("Stored Wishlist: ",storedWishlist)
         if (storedWishlist) {
           setWishlistItems(JSON.parse(storedWishlist));
         }

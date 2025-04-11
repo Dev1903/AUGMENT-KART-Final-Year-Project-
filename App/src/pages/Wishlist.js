@@ -11,18 +11,22 @@ const Wishlist = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <AppHeader title="Wishlist" />
-      {wishlistItems.length > 0 && (
-        <View style={styles.footer}>
-          <Button mode="contained" onPress={() => clearWishlist()} style={{ backgroundColor: '#4caf50' }}>
+      <AppHeader 
+      title="Wishlist"
+      rightComponent={wishlistItems.length > 0 ? (
+        <View >
+          <Button mode="contained" onPress={() => clearWishlist()} style={{ backgroundColor: '#4caf50', marginRight: 15 }}>
             Clear Wishlist
           </Button>
         </View>
-      )}
+      ): undefined}
+       />
+      
       <FlatList
         data={wishlistItems}
         keyExtractor={(item) => item.id}
         numColumns={2}
+        style={{marginLeft:15}}
         renderItem={({ item }) => (
           <View style={styles.itemWrapper}>
             <ProductCard item={item} />

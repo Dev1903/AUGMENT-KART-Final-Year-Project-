@@ -3,24 +3,30 @@ import { View, FlatList, StyleSheet, SafeAreaView, Image } from 'react-native';
 import { Text, Button, Card, IconButton } from 'react-native-paper';
 import { useCart } from '../context/CartContext';
 import AppHeader from '../components/AppHeader';
-import {EXPO_APP_BACKEND_URL} from "@env"
+import { EXPO_APP_BACKEND_URL } from "@env"
 
 const Cart = () => {
     const { cartItems, removeFromCart, updateQuantity, getTotal, clearCart } = useCart();
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <AppHeader title="Cart" />
-            {/* Footer at the bottom */}
+            <AppHeader
+                title="Cart"
+                rightComponent={cartItems.length > 0 ? (
+                    <View>
+                        <Button mode="contained" onPress={() => clearCart()} style={{ backgroundColor: '#4caf50',marginRight: 15 }}>
+                            Clear Cart
+                        </Button>
+                    </View>
+                ): undefined}
+            />
             {cartItems.length > 0 && (
                 <View style={styles.footer}>
-                    <View style={styles.totalBlock}>
-                        <Text style={styles.totalLabel}>Total Cart Amount</Text>
+                    <View>
+                        <Text style={styles.totalLabel}>Total Cart Amount:</Text>
                         <Text style={styles.totalValue}>₹{getTotal()}</Text>
                     </View>
-                    <Button mode="contained" onPress={() => clearCart()} style={{ backgroundColor: '#4caf50' }}>
-                        Clear Cart
-                    </Button>
+
                 </View>
             )}
             <FlatList

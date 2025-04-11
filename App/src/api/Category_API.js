@@ -2,7 +2,7 @@ import axios from "axios";
 import {EXPO_APP_BACKEND_URL} from "@env"
 
 const URL = `${EXPO_APP_BACKEND_URL}/category`;
-console.log(URL)
+// console.log(URL)
 
 export const getCategories = async() =>{
     try {

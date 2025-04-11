@@ -7,6 +7,8 @@ import CategoryList from '../components/Categories';
 import NewlyLaunched from '../components/NewlyLaunched';
 import ImageSlider from '../components/ImageSlider';
 import BestSeller from '../components/BestSeller';
+import { jwtDecode } from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -34,14 +36,14 @@ const HomeScreen = () => {
       }
       style={{backgroundColor: "white"}}
     >
-      <AppHeader title="Grocery Store" />
+      <AppHeader title="Augment Cart" />
       <Searchbar placeholder="Search groceries..." style={{ margin: 10 }} />
       <ImageSlider />
       <CategoryList />
       <NewlyLaunched />
       <BestSeller />
     </ScrollView>
-  );
+  ); 
 };
 
 export default HomeScreen;

@@ -1,9 +1,35 @@
 // components/ProfileImage.js
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Image, View, Text, StyleSheet } from 'react-native';
+import { jwtDecode } from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUser } from '../api/User_API';
+import {EXPO_APP_BACKEND_URL} from "@env"
 
 const ProfileImage = ({ uri, name, size = 40 }) => {
-  const firstLetter = name?.charAt(0)?.toUpperCase() || '?';
+   const [userInfo, setUserInfo] = useState("")
+   useEffect(() => {
+    const getDecodedToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        if (token) {
+          const decoded = jwtDecode(token)
+          const userFromDB = await getUser(decoded.id);
+          setUserInfo(userFromDB);
+          console.log("PROFILE IMAGE:" , userInfo)
+        } else {
+          console.log('No token found');
+        }
+      } catch (err) {
+        console.error('Error decoding token:', err);
+      }
+    };
+  
+    getDecodedToken();
+  }, []);
+  // console.log(basicUserInfo)
+
+  const firstLetter = userInfo.name?.charAt(0)?.toUpperCase();
 
   // Generate a random background color (memoized so it doesn't change during a single render)
   const backgroundColor = useMemo(() => {
@@ -12,12 +38,12 @@ const ProfileImage = ({ uri, name, size = 40 }) => {
     return colors[randomIndex];
   }, []);
 
-  return uri ? (
-    <Image source={{ uri }} style={[styles.image, { width: size, height: size, borderRadius: size / 2 }]} />
-  ) : (
+  return userInfo.image === 'default' ? (
     <View style={[styles.placeholder, { width: size, height: size, borderRadius: size / 2, backgroundColor }]}>
       <Text style={styles.initial}>{firstLetter}</Text>
     </View>
+  ) : (
+    <Image source={{uri :`${EXPO_APP_BACKEND_URL}/images/user-images/${userInfo.image}`}} style={[styles.image, { width: size, height: size, borderRadius: size / 2 }]} />
   );
 };
 
