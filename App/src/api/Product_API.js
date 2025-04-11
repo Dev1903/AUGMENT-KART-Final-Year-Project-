@@ -63,3 +63,17 @@ export const deleteProduct = async (id) => {
         return error.response ? error.response : { message: 'Unknown error occurred' };
     }
 };
+
+
+//SearchBar
+export const searchProducts = async (query) => {
+    try {
+        console.log(query)
+      const res = await axios.get(`${URL}/search?q=${query}`);
+      console.log("Received Data", res.data)
+      return res.data;
+    } catch (err) {
+      console.error('Search error:', err);
+      throw err;
+    }
+  };

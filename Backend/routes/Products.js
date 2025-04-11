@@ -21,18 +21,18 @@ router.get("/latest", async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const sortBy = req.query.sortBy || 'createdAt'; // default field
     const order = req.query.order === 'asc' ? 1 : -1; // asc = 1, desc = -1
-  
+
     try {
-      const products = await Product.find()
-        .sort({ [sortBy]: order }) // dynamic field sorting
-        .limit(limit);
-  
-      res.status(200).json(products);
+        const products = await Product.find()
+            .sort({ [sortBy]: order }) // dynamic field sorting
+            .limit(limit);
+
+        res.status(200).json(products);
     } catch (error) {
-      console.error("Error fetching sorted products:", error);
-      res.status(500).json({ message: "Error fetching products" });
+        console.error("Error fetching sorted products:", error);
+        res.status(500).json({ message: "Error fetching products" });
     }
-  });
+});
 
 
 // Add Product
@@ -48,6 +48,7 @@ router.post("/addProduct", productUpload.single("image"), async (req, res) => {
             price: req.body.price,
             category: category._id,
             image: req.file.originalname,
+            categoryName: category.name,
         });
 
         await product.save();
@@ -152,6 +153,44 @@ router.delete("/deleteProduct/:id", async (req, res) => {
     }
 });
 
+
+//Searchbar 
+router.get('/search', async (req, res) => {
+    const { q } = req.query;
+    console.log("Q: ", q);
+
+    if (!q) {
+        return res.status(400).json({ message: 'Query is required' });
+    }
+
+    try {
+        const results = await Product.aggregate([
+            {
+                $search: {
+                    index: 'default',
+                    text: {
+                        query: q,
+                        path: ['name', 'price', 'categoryName'], // Only product fields now
+                        fuzzy: {
+                            maxEdits: 2,
+                            prefixLength: 1,
+                        },
+                    },
+                },
+            },
+            {
+                $limit: 20,
+            },
+        ]);
+console.log(results)
+        res.json(results);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Search failed' });
+    }
+});
+
+// 
 export default router;
 
 
