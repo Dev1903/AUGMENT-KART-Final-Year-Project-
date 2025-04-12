@@ -23,6 +23,7 @@ Thumbs.db
 .env.local
 
 # React Native
+android/
 android/.gradle/
 android/.idea/
 android/build/
