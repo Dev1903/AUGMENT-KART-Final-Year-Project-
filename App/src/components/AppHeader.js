@@ -16,6 +16,10 @@ const AppHeader = ({ title, rightComponent }) => {
     closeMenu();
     navigation.navigate('Profile');
   };
+  const handleOrder = () => {
+    closeMenu();
+    navigation.navigate('Orders');
+  };
 
   const handleLogout = async () => {
     closeMenu();
@@ -44,6 +48,7 @@ const AppHeader = ({ title, rightComponent }) => {
           contentStyle={styles.menuContent}
         >
           <Menu.Item onPress={handleProfile} title="Profile" />
+          <Menu.Item onPress={handleOrder} title="My Orders" />
           <Menu.Item onPress={handleLogout} title="Logout" style={styles.logoutItem} />
         </Menu>
       ) : rightComponent === null ? null : rightComponent}

@@ -20,7 +20,8 @@ export const createOrder = async (orderData) => {
 export const getUserOrders = async (userId) => {
     // //console.log(userId);
     try {
-        const response = await axios.get(`${URL}/orders/${userId}`);
+        // console.log(userId);
+        const response = await axios.get(`${URL}/userOrders/${userId}`);
         
         return response.data;
     } catch (error) {
@@ -29,14 +30,3 @@ export const getUserOrders = async (userId) => {
     }
 };
 
-// Fetch Orders
-export const getOrders = async () => {
-    try {
-        const response = await axios.get(`${URL}/orders`);
-        // Ensure the response is treated as an array
-        return Array.isArray(response.data) ? response.data : [];
-    } catch (error) {
-        console.error('Error While Fetching Orders:', error);
-        return []; // Return an empty array on error
-    }
-};

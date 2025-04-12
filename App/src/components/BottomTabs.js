@@ -17,7 +17,7 @@ const BottomTabs = () => {
           let iconName;
 
           if (route.name === 'Home') iconName = 'home';
-          else if (route.name === 'Order Again') iconName = 'history';
+          else if (route.name === 'Recent Orders') iconName = 'history';
           else if (route.name === 'Wishlist') iconName = 'heart-outline';
           else if (route.name === 'Cart') iconName = 'cart';
 
@@ -33,7 +33,7 @@ const BottomTabs = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Order Again" component={OrderAgain} />
+      <Tab.Screen name="Recent Orders" component={OrderAgain} />
       <Tab.Screen name="Wishlist" component={Wishlist} />
       <Tab.Screen name="Cart" component={Cart} />
     </Tab.Navigator>

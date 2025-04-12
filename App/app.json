@@ -4,27 +4,14 @@
     "slug": "augment-cart",
     "scheme": "augmentcart",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff"
-      },
       "package": "com.bristidev.burman2004.augmentcart"
     },
-    "web": {
-      "favicon": "./assets/icon.png"
+    "extra": {
+      "eas": {
+        "projectId": "0c616215-23ed-44f9-9f8c-0c44fb81db92"
+      }
     }
   }
 }

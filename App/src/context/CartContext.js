@@ -63,6 +63,22 @@ export const CartProvider = ({ children }) => {
       );
     });
   };
+  const addMultipleToCart = (products) => {
+    setCartItems((prev) => {
+      const updatedCart = [...prev];
+  
+      products.forEach(({ product, quantity }) => {
+        const existingIndex = updatedCart.findIndex((item) => item._id === product._id);
+        if (existingIndex !== -1) {
+          updatedCart[existingIndex].quantity += quantity;
+        } else {
+          updatedCart.push({ ...product, quantity });
+        }
+      });
+  
+      return updatedCart;
+    });
+  };
 
   const clearCart = () => setCartItems([]);
 
@@ -75,7 +91,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, getTotal }}
+      value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, getTotal, addMultipleToCart }}
     >
       {children}
     </CartContext.Provider>

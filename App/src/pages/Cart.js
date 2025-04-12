@@ -9,8 +9,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { getUser } from '../api/User_API';
 import { createOrder } from '../api/Order_API';
+import { useNavigation } from '@react-navigation/native';
 
 const Cart = () => {
+    const navigation = useNavigation();
     const { cartItems, removeFromCart, updateQuantity, getTotal, clearCart } = useCart();
     const [userInfo, setUserInfo] = useState("")
     useEffect(() => {
@@ -35,7 +37,7 @@ const Cart = () => {
 
     const handlePayment = () => {
         const totalInPaise = getTotal() * 100; // Razorpay expects amount in paise
-    console.log(totalInPaise)
+        console.log(totalInPaise)
         const options = {
             description: 'Purchase from Augment Cart',
             image: '../../assets/icon.png',
@@ -51,31 +53,35 @@ const Cart = () => {
             theme: { color: '#4caf50' }
         };
         console.log("OPTIONS:", options)
-    
+
         try {
             console.log("Opening Razorpay...");
             RazorpayCheckout.open(options)
-              .then((data) => {
-                console.log("Razorpay success:", data);
-                const orderData = {
-                  paymentID: data.razorpay_payment_id,
-                  user: userInfo._id,
-                  products: cartItems.map(item => ({
-                    product: item._id,
-                    quantity: item.quantity,
-                  })),
-                  totalAmount: getTotal(),
-                };
-                console.log("RESULT RZP:", orderData);
-                createOrder(orderData);
-                AsyncStorage.removeItem("cart")
-              })
-              .catch((error) => {
-                console.error("Razorpay failed:", error);
-              });
-          } catch (err) {
+                .then((data) => {
+                    console.log("Razorpay success:", data);
+                    const orderData = {
+                        paymentID: data.razorpay_payment_id,
+                        user: userInfo._id,
+                        products: cartItems.map(item => ({
+                            product: item._id,
+                            quantity: item.quantity,
+                        })),
+                        totalAmount: getTotal(),
+                    };
+                    console.log("RESULT RZP:", orderData);
+                    createOrder(orderData);
+                    clearCart();
+                    AsyncStorage.removeItem("cart")
+                    navigation.navigate('Home', {
+                        screen: 'HomeScreen',
+                      });
+                })
+                .catch((error) => {
+                    console.error("Razorpay failed:", error);
+                });
+        } catch (err) {
             console.error("Razorpay native crash or issue:", err);
-          }
+        }
     };
 
     return (
@@ -104,7 +110,7 @@ const Cart = () => {
             )}
             <FlatList
                 data={cartItems}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <Card style={styles.card}>
                         <View style={styles.cardContent}>

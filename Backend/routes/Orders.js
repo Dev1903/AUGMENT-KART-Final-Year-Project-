@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import Order from "../model/Order.js"
 import Product from "../model/Product.js"
 const router = express.Router();
@@ -8,7 +9,7 @@ const router = express.Router();
 // Create Order
 router.post("/createOrder", async (req, res) => {
     const { paymentId, products, totalAmount, userId, date, time } = req.body;
-    console.log(req.body)
+    console.log(req.body.totalAmount)
     
   
     try {
@@ -25,7 +26,7 @@ router.post("/createOrder", async (req, res) => {
         paymentID: req.body.paymentID,
         user: req.body.user, // Convert userId to ObjectId
         products: formattedProducts, // Correctly formatted products array
-        amount: totalAmount,
+        totalAmount: totalAmount,
       });
       //console.log(order);
   
@@ -46,9 +47,9 @@ router.post("/createOrder", async (req, res) => {
   });
   
   // Get Order by userId
-  router.get("/orders/:userId", async (req, res) => {
+  router.get("/userOrders/:userId", async (req, res) => {
     const userId = req.params.userId;
-    //console.log("User ID:", userId);
+    console.log("User ID:", userId);
   
     try {
       // Convert userId to ObjectId
@@ -57,6 +58,7 @@ router.post("/createOrder", async (req, res) => {
       // Fetch all orders for the given user ID
       const orders = await Order.find({ user: userObjectId })
          // Populate user data if necessary
+         .sort({ orderDate: -1 })
         .populate({
           path: "products", // Assuming 'products' is an array of ObjectId references to 'Product'
           populate: {

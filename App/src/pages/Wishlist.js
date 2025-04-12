@@ -8,7 +8,7 @@ import { EXPO_APP_BACKEND_URL } from "@env";
 
 const Wishlist = () => {
   const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist();
-
+console.log(wishlistItems)
   return (
     <SafeAreaView style={styles.safeArea}>
       <AppHeader 
@@ -23,8 +23,8 @@ const Wishlist = () => {
        />
       
       <FlatList
-        data={wishlistItems}
-        keyExtractor={(item) => item.id}
+        data={wishlistItems?.filter((item) => item && item._id)}
+        keyExtractor={(item, index) => item?._id ?? `key-${index}`}
         numColumns={2}
         style={{marginLeft:15}}
         renderItem={({ item }) => (

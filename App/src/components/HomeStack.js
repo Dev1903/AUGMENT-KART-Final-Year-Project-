@@ -8,6 +8,7 @@ import Profile from '../pages/Profile'
 import LoginScreen from '../pages/authPages/Login';
 import RegisterScreen from '../pages/authPages/Register';
 import SearchScreen from '../pages/SearchScreen';
+import OrderScreen from '../pages/OrderScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,9 +19,8 @@ const HomeStack = () => {
       <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ headerShown: false }} />
       <Stack.Screen name="ProductsPerCategory" component={ProductsPerCategory} options={{ headerShown: false }} />
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+      <Stack.Screen name="Orders" component={OrderScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SearchScreen" component={SearchScreen}  />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
 
     </Stack.Navigator>
   );

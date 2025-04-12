@@ -5,18 +5,17 @@ import { getUserOrders } from '../api/Order_API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {EXPO_APP_BACKEND_URL} from "@env"
-import AppHeader from "../components/AppHeader"
+import { EXPO_APP_BACKEND_URL } from '@env';
 import { useCart } from '../context/CartContext';
 import { useNavigation } from '@react-navigation/native';
+import AppHeader from '../components/AppHeader';
 
-const OrderAgain = () => {
+const OrderScreen = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const { addMultipleToCart, clearCart } = useCart();
-const navigation = useNavigation();
-
+    const navigation = useNavigation();
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -45,7 +44,10 @@ const navigation = useNavigation();
         return (
             <Card key={index} style={styles.productCard}>
                 <Card.Content style={styles.productContent}>
-                    <Image source={{ uri: `${EXPO_APP_BACKEND_URL}/images/product-images/${product.image}` }} style={styles.productImage} />
+                    <Image
+                        source={{ uri: `${EXPO_APP_BACKEND_URL}/images/product-images/${product.image}` }}
+                        style={styles.productImage}
+                    />
                     <View style={styles.productInfo}>
                         <Text variant="titleMedium">{product.name}</Text>
                         <Text variant="bodySmall">Price: ₹{product.price}</Text>
@@ -56,35 +58,34 @@ const navigation = useNavigation();
         );
     };
 
-    const renderOrderItem = ({ item }) => (
-      <View style={styles.orderContainer}>
-        <View style={styles.orderHeader}>
-          <Text style={styles.orderTitle}>Order ID: {item._id}</Text>
-          <Button
-            mode="outlined"
-            onPress={() => {
-              const formattedItems = item.products.map(({ product, quantity }) => ({
+    const renderOrderItem = ({ item }) => {
+        const handleOrderAgain = () => {
+            const formattedItems = item.products.map(({ product, quantity }) => ({
                 product,
                 quantity
-              }));
-              clearCart();
-              addMultipleToCart(formattedItems);
-              navigation.navigate('Cart');
-            }}
-            style={styles.orderAgainButton}
-          >
-            Order Again
-          </Button>
-        </View>
-        <Text style={styles.orderTotal}>Total: ₹{item.totalAmount}</Text>
-        {item.products.slice(0, 5).map(renderProductItem)}
-      </View>
-    );
-    
+            }));
+            clearCart();
+            addMultipleToCart(formattedItems);
+            navigation.navigate('Cart');
+        };
+
+        return (
+            <View style={styles.orderContainer}>
+                <View style={styles.orderHeader}>
+                    <Text style={styles.orderTitle}>Order ID: {item._id}</Text>
+                    <Button mode="outlined" onPress={handleOrderAgain} style={styles.orderAgainButton}>
+                        Order Again
+                    </Button>
+                </View>
+                <Text style={styles.orderTotal}>Total: ₹{item.totalAmount}</Text>
+                {item.products.map(renderProductItem)}
+            </View>
+        );
+    };
 
     return (
         <SafeAreaView style={styles.safeArea}>
-        <AppHeader title="Recent Orders" />
+        <AppHeader title="My Orders" />
             <View style={styles.container}>
                 {loading ? (
                     <View style={styles.loader}>
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: '#fff',
-        marginTop:-50
+        marginTop: -50
     },
     container: {
         flex: 1,
@@ -137,9 +138,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
     },
+    orderHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 5,
+    },
     orderTitle: {
         fontWeight: 'bold',
-        marginBottom: 5,
     },
     orderTotal: {
         marginBottom: 10,
@@ -163,17 +169,9 @@ const styles = StyleSheet.create({
     productInfo: {
         flex: 1,
     },
-    orderHeader: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginBottom: 5,
-},
-orderAgainButton: {
-  borderColor: '#4caf50',
-  marginLeft: 10,
-},
-
+    orderAgainButton: {
+        borderColor: '#4caf50',
+    },
 });
 
-export default OrderAgain;
+export default OrderScreen;

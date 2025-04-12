@@ -50,7 +50,7 @@ const SearchScreen = () => {
                         <Text>Searching Products...</Text>
                     </View>
                 ) : (
-                    <View style={{ flex: 1, alignSelf: "center" }}>
+                    
                         <FlatList
                             data={results}
                             keyExtractor={(item) => item._id}
@@ -58,7 +58,7 @@ const SearchScreen = () => {
                             renderItem={({ item }) => <ProductCard item={item} />}
                             ListEmptyComponent={<Text style={styles.noResults}>No products found.</Text>}
                         />
-                    </View>
+                    
                 )}
             </View>
         </SafeAreaView>
