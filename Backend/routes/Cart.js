@@ -1,15 +1,36 @@
 import express from "express";
+import Product from "../model/Product.js";
 const router = express.Router();
 
-router.post('/', (req, res) => {
-    const cartData = req.body;
-
+router.post('/', async (req, res) => {
+    const cartData = req.body; // [{ _id, quantity, price }...]
     console.log("🛒 Received Cart Data:", cartData);
 
-    // Example: Save to DB or perform operations here
-    // You could loop through items and store them in MongoDB, etc.
+    try {
+        const enrichedCart = await Promise.all(
+            cartData.map(async (item) => {
+                const product = await Product.findById(item._id).select("-sold").lean();
 
-    res.status(200).json({ message: 'Cart received successfully' });
+                if (!product) {
+                    console.warn(`Product not found for ID: ${item._id}`);
+                    return null;
+                }
+
+                return {
+                    ...product,
+                    quantity: item.quantity
+                };
+            })
+        );
+
+        // Filter out nulls in case some products weren't found
+        const validCart = enrichedCart.filter(item => item !== null);
+        console.log(validCart)
+        res.status(200).json(validCart); // Send enriched cart
+    } catch (err) {
+        console.error("❌ Error enriching cart data:", err);
+        res.status(500).json({ message: "Server error while processing cart" });
+    }
 });
 
 export default router;
