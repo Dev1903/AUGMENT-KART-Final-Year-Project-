@@ -13,3 +13,22 @@
 /*.symbols.json.gz
   Content-Type: application/json
   Content-Encoding: gzip
+/*.js.unityweb
+  Content-Type: application/javascript
+  Content-Encoding: gzip
+
+/*.data.unityweb
+  Content-Type: application/octet-stream
+  Content-Encoding: gzip
+
+/*.wasm.unityweb
+  Content-Type: application/wasm
+  Content-Encoding: gzip
+
+/*.symbols.json
+  Content-Type: application/json
+  Content-Encoding: gzip
+
+/index.html
+  Content-Type: text/html
+  Cache-Control: no-cache
