@@ -14,9 +14,10 @@ import SignUp from './pages/authPages/SignUp';
 import { ChakraProvider } from '@chakra-ui/react';
 function App() {
   return (
-    <ChakraProvider>
-      <CartProvider>
-        <Router>
+    <Router>
+      <ChakraProvider>
+        <CartProvider>
+
           <Routes>
             {/* AR Entry page */}
             <Route path="/" element={<ARChoicePage />} />
@@ -31,9 +32,10 @@ function App() {
             <Route path='/checkout' element={<Checkout />} />
 
           </Routes>
-        </Router>
-      </CartProvider>
-    </ChakraProvider>
+
+        </CartProvider>
+      </ChakraProvider>
+    </Router>
   );
 }
 

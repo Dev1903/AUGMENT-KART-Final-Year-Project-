@@ -115,7 +115,7 @@ router.put("/updateUser/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { firstName, lastName, address, mobile, email, image, imageType } = req.body;
-    console.log(req.body)
+    console.log(req.body.imageType)
 
     const user = await User.findById(id);
     if (!user) return res.status(404).json("User Not Found");

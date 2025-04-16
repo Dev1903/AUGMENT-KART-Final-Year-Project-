@@ -15,13 +15,11 @@ import {
     ModalFooter,
     Text,
 } from '@chakra-ui/react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { loginUser } from '../../api/User_API'; // Replace with your login API
 import Notiflix from 'notiflix';
 
 const Login = ({ isOpen, onClose, switchToSignup }) => {
-
-    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         username: '',

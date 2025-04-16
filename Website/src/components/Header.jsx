@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
 import WebProfileImage from './WebProfileImage';
 const URL = import.meta.env.VITE_APP_BACKEND_URL;
@@ -7,6 +7,7 @@ import Login from '../pages/authPages/Login';
 import SignUp from '../pages/authPages/SignUp';
 
 const Header = () => {
+  const navigate = useNavigate();
 
   const [hasUser, setHasUser] = useState(false);
   const handleCloseModals = () => {
@@ -112,7 +113,7 @@ const Header = () => {
             <span
               onClick={() => {
                 if (hasUser) {
-                  window.location.href = '/profile';
+                  navigate("/profile")
                 } else {
                   openSignup();
                 }
