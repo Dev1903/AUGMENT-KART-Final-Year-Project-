@@ -9,7 +9,7 @@ const Footer = () => {
                     {/* About Section */}
                     <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                         <img
-                            className="rounded-circle img-fluid footer-logo"
+                            className="rounded-circle img-fluid footer-logo scale-on-hover"
                             src="/images/logo.png"
                             alt="Logo"
                         />
@@ -21,26 +21,26 @@ const Footer = () => {
                     {/* Links Section */}
                     <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                         <h5 className="footer-heading">Quick Links</h5>
-                        <p><a href="#home-section" className="footer-link">Home</a></p>
-                        <p><a href="#category-section" className="footer-link">Category</a></p>
-                        <p><a href="#bestseller-section" className="footer-link">Bestseller</a></p>
+                        <p><a href="#home-section" className="footer-link change-color-on-hover">Home</a></p>
+                        <p><a href="#category-section" className="footer-link change-color-on-hover">Category</a></p>
+                        <p><a href="#bestseller-section" className="footer-link change-color-on-hover">Bestseller</a></p>
                     </div>
 
                     {/* Contact Section */}
                     <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                         <h5 className="footer-heading">Contact</h5>
-                        <p><i className="fas fa-home me-3"></i> Kolkata, India</p>
-                        <p><i className="fas fa-envelope me-3"></i> support@freshmart.com</p>
-                        <p><i className="fas fa-phone me-3"></i> +91 9876543210</p>
+                        <p className='change-color-on-hover contact-links'><i className="fas fa-home me-3"></i> Kolkata, India</p>
+                        <p className='change-color-on-hover contact-links'><i className="fas fa-envelope me-3"></i> support@freshmart.com</p>
+                        <p className='change-color-on-hover contact-links'><i className="fas fa-phone me-3"></i> +91 9876543210</p>
                     </div>
 
                     {/* Social Icons */}
                     <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mt-3 text-center">
                         <h5 className="footer-heading">Follow Us</h5>
-                        <a href="#" className="footer-icon"><i className="fab fa-facebook"></i></a>
-                        <a href="#" className="footer-icon"><i className="fab fa-twitter"></i></a>
-                        <a href="#" className="footer-icon"><i className="fab fa-instagram"></i></a>
-                        <a href="#" className="footer-icon"><i className="fab fa-linkedin"></i></a>
+                        <a href="#" className="footer-icon change-color-on-hover"><i className="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" className="footer-icon change-color-on-hover"><i className="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" className="footer-icon change-color-on-hover"><i className="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" className="footer-icon change-color-on-hover"><i className="fab fa-linkedin fa-lg"></i></a>
                     </div>
                 </div>
 

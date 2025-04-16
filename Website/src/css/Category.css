@@ -33,6 +33,7 @@
 .category-item {
     width: 100px;
     cursor: pointer;
+    margin: 10px;
 }
 
 .category-icon-wrapper {

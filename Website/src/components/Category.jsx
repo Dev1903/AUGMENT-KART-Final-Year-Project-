@@ -61,10 +61,10 @@ const Category = () => {
                         }}
                     >
                         {categories.map((category) => (
-                            <Link to="/productsPerCategory"><div
+                            <Link to={`/productsPerCategory/${category._id}/${category.name}`} style={{ textDecoration: 'none' }}><div
                                 key={category._id}
-                                className="text-center mx-3 flex-shrink-0 category-item"
-                                style={{ width: '100px', cursor: 'pointer' }}
+                                className="text-center mx-3 flex-shrink-0 category-item scale-on-hover"
+                                style={{ width: '100px', cursor: 'pointer', color: "black" }}
                             >
                                 <div
                                     className="rounded-circle mb-2 d-flex justify-content-center align-items-center bg-white"
@@ -85,7 +85,7 @@ const Category = () => {
                                         }}
                                     />
                                 </div>
-                                <div className="fw-medium">{category.name}</div>
+                                <div className="fw-medium" >{category.name}</div>
                             </div></Link>
                         ))}
                     </div>

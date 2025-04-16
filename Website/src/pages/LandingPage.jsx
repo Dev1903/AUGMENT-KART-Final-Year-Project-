@@ -9,22 +9,22 @@ import Footer from '../components/Footer';
 const LandingPage = () => {
   return (
     <div className="App container-fluid">
-            <div className="row header">
-              <Header />
-            </div>
-            <div className="row offer pt-3 pb-5">
-              <Offer />
-            </div>
-            <div className="row category pt-5 pb-5">
-              <Category />
-            </div>
-            <div className="row bestseller pt-5 pb-5">
-              <BestSeller />
-            </div>
-            <div className="row footer pt-5">
-              <Footer />
-            </div>
-          </div>
+      <div className="row header">
+        <Header />
+      </div>
+      <div className="row offer pt-3 pb-5">
+        <Offer />
+      </div>
+      <div className="row category pt-5 pb-5">
+        <Category />
+      </div>
+      <div className="row bestseller pt-5 pb-5">
+        <BestSeller />
+      </div>
+      <div className="row footer pt-5">
+        <Footer />
+      </div>
+    </div>
   )
 }
 

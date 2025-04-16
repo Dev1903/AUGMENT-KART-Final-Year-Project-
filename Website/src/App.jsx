@@ -10,26 +10,30 @@ import { CartProvider } from './context/CartContext';
 import ProductDetails from './pages/ProductDetails';
 import ProductsPerCategory from './pages/ProductsPerCategory';
 import Checkout from './pages/Checkout';
+import SignUp from './pages/authPages/SignUp';
+import { ChakraProvider } from '@chakra-ui/react';
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Routes>
-          {/* AR Entry page */}
-          <Route path="/" element={<ARChoicePage />} />
+    <ChakraProvider>
+      <CartProvider>
+        <Router>
+          <Routes>
+            {/* AR Entry page */}
+            <Route path="/" element={<ARChoicePage />} />
 
-          {/* Website view */}
-          <Route path="/home" element={<LandingPage />} />
-          <Route path='/wishlist' element={<Wishlist />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/productDetails' element={<ProductDetails />} />
-          <Route path='/productsPerCategory' element={<ProductsPerCategory />} />
-          <Route path='/checkout' element={<Checkout/>} />
-          
-        </Routes>
-      </Router>
-    </CartProvider>
+            {/* Website view */}
+            <Route path="/home" element={<LandingPage />} />
+            <Route path='/wishlist' element={<Wishlist />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/productDetails' element={<ProductDetails />} />
+            <Route path='/productsPerCategory/:categoryId/:categoryName' element={<ProductsPerCategory />} />
+            <Route path='/checkout' element={<Checkout />} />
+
+          </Routes>
+        </Router>
+      </CartProvider>
+    </ChakraProvider>
   );
 }
 

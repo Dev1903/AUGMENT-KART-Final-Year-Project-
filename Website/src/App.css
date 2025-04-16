@@ -42,10 +42,7 @@
   background-color: #2aa52f !important; 
   color: white !important; 
 }
-.header i{
-    color: #4caf50 !important; 
-    /* color: white !important;  */
-}
+
 /* The rest of your CSS remains unchanged */
 
 .category-scrollbar-hide::-webkit-scrollbar {
@@ -69,4 +66,22 @@ h1,h2,h3,h4,h5,h6 {
 .footer h5,
 .category-heading {
     font-family: 'Playfair Display', serif;
+}
+
+.scale-on-hover {
+  transition: transform 0.3s ease;
+}
+
+.scale-on-hover:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.change-color-on-hover {
+  color: #4caf50;
+  transition: color 0.25s ease;
+}
+
+.change-color-on-hover:hover {
+  color: #2aa52f!important;
 }

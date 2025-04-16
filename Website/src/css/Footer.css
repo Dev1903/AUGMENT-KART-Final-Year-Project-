@@ -21,9 +21,6 @@
     text-decoration: none;
 }
 
-.footer-link:hover {
-    text-decoration: underline;
-}
 
 .footer-icon {
     color: white;
@@ -33,4 +30,9 @@
 
 .footer-icon:hover {
     opacity: 0.75;
+}
+.contact-links{
+    color:white;
+    text-decoration: none;
+    cursor: pointer;
 }

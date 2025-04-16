@@ -67,7 +67,7 @@ router.post("/addUser", async (req, res) => {
 // Login User
 router.post("/loginUser", async (req, res) => {
   const { username, password } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
 
   try {
     // Check if admin credentials are used
@@ -115,6 +115,7 @@ router.put("/updateUser/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { firstName, lastName, address, mobile, email, image, imageType } = req.body;
+    console.log(req.body)
 
     const user = await User.findById(id);
     if (!user) return res.status(404).json("User Not Found");
@@ -163,7 +164,7 @@ router.put("/updateUser/:id", async (req, res) => {
     user.email = email || user.email;
 
     await user.save();
-    res.status(200).json("User Successfully Updated");
+    res.status(200).json(user);
   } catch (error) {
     console.error("Error While Updating User:", error);
     res.status(500).json("Error While Updating User");
@@ -177,7 +178,7 @@ router.put("/updateUser/:id", async (req, res) => {
 router.get("/getUser/:id", async (req, res) => {
   try {
     const userId = req.params.id;
-    //console.log(userId); // Get the userId from the request parameters
+    console.log(userId); // Get the userId from the request parameters
     const user = await User.findById(userId).select("-password"); // Fetch user from the database using the userId
     if (!user) {
       return res.status(404).json({ message: "User not found" });
