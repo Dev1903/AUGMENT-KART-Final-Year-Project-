@@ -9,7 +9,6 @@ const router = express.Router();
 // Create Order
 router.post("/createOrder", async (req, res) => {
     const { paymentId, products, totalAmount, userId, date, time } = req.body;
-    console.log(req.body.totalAmount)
     
   
     try {
@@ -28,7 +27,7 @@ router.post("/createOrder", async (req, res) => {
         products: formattedProducts, // Correctly formatted products array
         totalAmount: totalAmount,
       });
-      //console.log(order);
+      console.log(order);
   
       await order.save();
   

@@ -5,6 +5,7 @@ import {
   Menu, MenuList, MenuItem, Heading, Divider
 } from '@chakra-ui/react';
 import { getUser, updateUser } from '../api/User_API';
+import { getUserOrders } from '../api/Order_API';
 import { jwtDecode } from 'jwt-decode';
 import Notiflix from 'notiflix';
 import WebProfileImage from '../components/WebProfileImage';
@@ -14,6 +15,10 @@ const URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const WebProfilePage = () => {
   const [userInfo, setUserInfo] = useState(null);
+  const [orders, setOrders] = useState(null);
+
+
+  // My Profile Page
   const [formData, setFormData] = useState({ firstName: '', lastName: '', address: '', mobile: '', image: '' });
   const [originalData, setOriginalData] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -158,6 +163,39 @@ const WebProfilePage = () => {
         ? formData.image
         : `${URL}/images/user-images/${formData.image}`;
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+
+
+
+
+  // My Order Page
+  useEffect(() => {
+    const fetchMyOrders = async () => {
+      try {
+        if (!userInfo) return; // Prevent API call if userInfo is not ready
+        console.log(userInfo)
+        const response = await getUserOrders(userInfo._id);
+        console.log(response)
+        setOrders(response);
+      } catch (err) {
+        console.error('Failed to fetch my orders', err);
+        Notiflix.Notify.failure('Failed to fetch my orders');
+      }
+    };
+
+    fetchMyOrders();
+  }, [userInfo]); // Re-run only when userInfo is set
+
+
   return (
     <div>
       <Header />
@@ -206,7 +244,7 @@ const WebProfilePage = () => {
 
         <Box
           flex="1"
-          overflowY="none"
+          overflowY="auto"
           py={8}
           px={4}
           height="calc(100vh - 135px)"
@@ -368,6 +406,34 @@ const WebProfilePage = () => {
           {activeSection === 'orders' && (
             <>
               <Heading size="lg" mb={6} textAlign="center" backgroundColor="#151615bd" color="white" py={2} borderRadius={10}>My Orders</Heading>
+              <div className="orders-container">
+                {orders.map((order) => (
+                  <div key={order._id} className="card my-4 px-5 py-3 order-card">
+                    <h3>Order ID: {order._id}</h3>
+                    <div className="row py-2">
+                      <div className="col-6">
+                        <h6>{formatDate(order.orderDate)}</h6>
+                      </div>
+                      <div className="col-6 text-end">
+                        <h5 className="total-amount">Total: ₹{order.totalAmount}</h5>
+                      </div>
+                    </div>
+                    <div className="products-row d-flex">
+                      {order.products.map((item) => (
+                        <span key={item._id} className="product-card" style={{ borderRadius: "10px", border: "1px solid black", minWidth: "100px", padding: "1px" }} >
+                          <img
+                            src={`${URL}/images/product-images/${item.product.image}`}
+                            alt={item.product.name}
+                            className="product-image"
+                            style={{ height: "100px", width: "auto" }}
+                          />
+                        </span>
+                      ))}
+                    </div>
+
+                  </div>
+                ))}
+              </div>
             </>
           )}
         </Box>

@@ -6,7 +6,8 @@ import Wishlist from './pages/Wishlist';
 import Cart from './pages/Cart';
 import ProfilePage from './pages/ProfilePage';
 import LandingPage from './pages/LandingPage';
-import { CartProvider } from './context/CartContext';
+import { CartProvider } from './context/provider/CartProvider';
+import { WishlistProvider } from './context/provider/WishlistProvider';
 import ProductDetails from './pages/ProductDetails';
 import ProductsPerCategory from './pages/ProductsPerCategory';
 import Checkout from './pages/Checkout';
@@ -16,6 +17,7 @@ function App() {
   return (
     <Router>
       <ChakraProvider>
+      <WishlistProvider>
         <CartProvider>
 
           <Routes>
@@ -34,6 +36,7 @@ function App() {
           </Routes>
 
         </CartProvider>
+        </WishlistProvider>
       </ChakraProvider>
     </Router>
   );

@@ -8,7 +8,8 @@ export const createOrder = async (orderData) => {
     try {
         console.log("RESULT RZP:", orderData)
         const result = await axios.post(`${URL}/createOrder`, orderData);
-        return result.data;
+        console.log("RESULT: ",result)
+        return result;
     } catch (error) {
         console.error('Error while creating order:', error);
         throw error;
@@ -19,7 +20,6 @@ export const createOrder = async (orderData) => {
 export const getUserOrders = async (userId) => {
     // //console.log(userId);
     try {
-        // console.log(userId);
         const response = await axios.get(`${URL}/userOrders/${userId}`);
         
         return response.data;

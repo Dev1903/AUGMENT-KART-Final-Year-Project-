@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import { useWishlist } from '../context/WishlistContext';
+// import { useParams } from 'react-router-dom';
+import { useCart } from '../context/useCart';
+import { useWishlist } from '../context/useWishlist';
 const URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const ProductDetails = ({ product }) => {

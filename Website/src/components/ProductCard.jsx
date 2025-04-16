@@ -1,46 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/useCart';
+import { useWishlist } from '../context/useWishlist';
 
 const URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, updateQuantity, cartItems, removeFromCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const navigate = useNavigate();
-  const [added, setAdded] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [liked, setLiked] = useState(isInWishlist(product._id));
+  const [quantity, setQuantity] = useState(0);
 
+  useEffect(() => {
+    // Check if the product is already in the cart and update quantity
+    const cartItem = cartItems.find((item) => item._id === product._id);
+    if (cartItem) {
+      setQuantity(cartItem.quantity);
+    }
+  }, [cartItems, product._id]);
+
+  // Handle adding to the cart
   const handleAddClick = () => {
     addToCart(product);
-    setAdded(true);
+    setQuantity(1);
   };
 
-  const handleGoToCart = () => {
-    navigate('/cart');
+  // Handle quantity change
+  const handleIncrease = () => {
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    updateQuantity(product._id, newQuantity);
   };
 
-  const handleWishlistClick = () => {
-    if (!liked) {
-      setLiked(true);
-      setShowPopup(true);
-      setTimeout(() => {
-        setShowPopup(false);
-      }, 2000);
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      updateQuantity(product._id, newQuantity);
     } else {
+      setQuantity(0);
+      removeFromCart(product._id);
+    }
+  };
+
+  // Handle adding/removing from the wishlist
+  const handleWishlistClick = () => {
+    if (liked) {
+      removeFromWishlist(product._id);
       setLiked(false);
-      setShowPopup(false); // Ensure popup disappears instantly when unliking
+    } else {
+      addToWishlist(product);
+      setLiked(true);
     }
   };
 
   return (
     <div className="card border-1 shadow rounded-4 p-3 product-card my-4">
-      <Link to="" style={{ color: "black", textDecoration: "none" }}>
+      <Link to="" style={{ color: 'black', textDecoration: 'none' }}>
         <div className="position-relative text-center d-flex justify-content-center">
           <img
             src={`${URL}/images/product-images/${product.image}`}
             alt={product.name}
-            className="img-fluid my-3  product-image scale-on-hover"
+            className="img-fluid my-3 product-image scale-on-hover"
           />
         </div>
       </Link>
@@ -57,23 +79,25 @@ const ProductCard = ({ product }) => {
                 style={{ color: liked ? 'red' : '#4caf50' }}
               ></i>
             </button>
-            {showPopup && (
-              <div className="wishlist-popup">Added to Wishlist</div>
-            )}
           </div>
 
-          {added ? (
-            <button className="btn btn-success" onClick={handleGoToCart}>
-              Go to Cart
-            </button>
-          ) : (
-            <button
-              className="btn btn-outline-success"
-              onClick={handleAddClick}
-            >
-              Add to Cart
-            </button>
-          )}
+          <div className="d-flex align-items-center">
+            {quantity > 0 ? (
+              <>
+                <button className="btn btn-outline-success" onClick={handleDecrease}>
+                  -
+                </button>
+                <span className="mx-2">{quantity}</span>
+                <button className="btn btn-outline-success" onClick={handleIncrease}>
+                  +
+                </button>
+              </>
+            ) : (
+              <button className="btn btn-outline-success" onClick={handleAddClick}>
+                Add to Cart
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
