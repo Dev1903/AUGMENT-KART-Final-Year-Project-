@@ -14,7 +14,7 @@
   .offer .bottom-right {
     min-height: 29vh;
     border-radius: 15px;
-    background-color: #f0faeb; /* individual colors will override */
+    background-color: #f0faeb; 
   }
   
   .offer .bottom-right {
