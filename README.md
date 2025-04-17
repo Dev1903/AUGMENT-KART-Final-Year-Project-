@@ -4,7 +4,7 @@ Augment Cart is a next-gen grocery shopping platform that combines traditional w
 
 ## 🔗 Live Links
 
-- 🌐 **Website**: [https://augment-cart.netlify.app](https://augment-cart.netlify.app)
+- 🌐 **Website**: [https://augmentcart.netlify.app](https://augmentcart.netlify.app)
 - 📱 **Download App (APK)**: [Augment Cart.apk](https://drive.google.com/file/d/1IHgE_IJyzyyPhYD9kOcNx8RJsqSACi84/view?usp=sharing)  
 
 ---
