@@ -65,9 +65,11 @@ const Login = ({ isOpen, onClose, switchToSignup }) => {
                 if (res.status === 200) {
                     localStorage.setItem('token', res.data.token);
 
-                    Notiflix.Notify.success('Successfully Logged In')
+                    Notiflix.Notify.success('Successfully Logged In ! Redirecting to Home...')
                     onClose(); // Redirect to home or dashboard
-                    window.location.replace("/home")
+                    setTimeout(() => {
+                        window.location.replace("/home");
+                      }, 1000);
 
                 } else if (res.status === 401) {
                     Notiflix.Notify.warning('Wrong Password. Try Again!');

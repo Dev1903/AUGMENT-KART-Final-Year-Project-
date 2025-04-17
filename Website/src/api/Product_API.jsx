@@ -18,7 +18,9 @@ export const getSortedProducts = async ({ limit, sortBy, order}) => {
 //Fetch Product by ID
 export const getProduct = async (productId) => {
     try {
-        const response = await axios.get(`${URL}/getProduct/${productId}`); // Pass the userId in the URL
+        console.log(productId)
+        const response = await axios.get(`${URL}/getProduct/${productId}`); 
+        console.log(response.data);// Pass the userId in the URL
         return response.data; // Return the user details
     } catch (error) {
         console.error('Error while fetching product:', error);
@@ -62,3 +64,16 @@ export const deleteProduct = async (id) => {
         return error.response ? error.response : { message: 'Unknown error occurred' };
     }
 };
+
+//SearchBar
+export const searchProducts = async (query) => {
+    try {
+        console.log(query)
+      const res = await axios.get(`${URL}/search?q=${query}`);
+      console.log("Received Data", res.data)
+      return res.data;
+    } catch (err) {
+      console.error('Search error:', err);
+      throw err;
+    }
+  };

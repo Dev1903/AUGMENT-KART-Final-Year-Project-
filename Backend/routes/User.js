@@ -87,7 +87,7 @@ router.post("/loginUser", async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
-    console.log(user)
+    // console.log(user)
 
     
 
@@ -115,7 +115,7 @@ router.put("/updateUser/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { firstName, lastName, address, mobile, email, image, imageType } = req.body;
-    console.log(req.body.imageType)
+    // console.log(req.body.imageType)
 
     const user = await User.findById(id);
     if (!user) return res.status(404).json("User Not Found");
@@ -150,7 +150,7 @@ router.put("/updateUser/:id", async (req, res) => {
 
       const ext = imageType.split('/')[1] || 'jpg';
       const buffer = Buffer.from(image, 'base64');
-      const filename = `user-${id}-${Date.now()}.${ext}`;
+      const filename = `user-${id}.${ext}`;
       const filePath = path.join(uploadDir, filename);
 
       fs.writeFileSync(filePath, buffer);
@@ -158,10 +158,11 @@ router.put("/updateUser/:id", async (req, res) => {
     }
 
     // Update other fields
-    user.name = firstName && lastName ? `${firstName} ${lastName}` : user.name;
-    user.address = address || user.address;
-    user.mobile = mobile || user.mobile;
-    user.email = email || user.email;
+    user.address = address !== undefined ? address : user.address;
+user.mobile = mobile !== undefined ? mobile : user.mobile;
+user.email = email !== undefined ? email : user.email;
+user.name = firstName && lastName ? `${firstName} ${lastName}` : user.name;
+
 
     await user.save();
     res.status(200).json(user);
@@ -178,7 +179,7 @@ router.put("/updateUser/:id", async (req, res) => {
 router.get("/getUser/:id", async (req, res) => {
   try {
     const userId = req.params.id;
-    console.log(userId); // Get the userId from the request parameters
+    // console.log(userId); 
     const user = await User.findById(userId).select("-password"); // Fetch user from the database using the userId
     if (!user) {
       return res.status(404).json({ message: "User not found" });

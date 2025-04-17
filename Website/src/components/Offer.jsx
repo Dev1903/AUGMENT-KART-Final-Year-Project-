@@ -8,7 +8,7 @@ const Offer = () => {
             <div className="container">
                 <div className="row">
                     {/* Left side */}
-                    <div className="col-md-8 d-flex align-items-center justify-content-center">
+                    <div className="col-md-8 col-lg-8 d-flex align-items-center justify-content-center">
                         <div className="top-left d-flex align-items-center justify-content-between p-4 scale-on-hover">
                             <div>
                                 <p className="text-warning fw-bold">100% Natural</p>
@@ -21,7 +21,9 @@ const Offer = () => {
                     </div>
 
                     {/* Right side */}
-                    <div className="col-md-4 d-flex flex-column justify-content-between">
+                    <div className="col-md-4 col-lg-4 d-flex flex-column justify-content-between">
+                        <div className="row">
+                        <div className="col">
                         <div className="top-right p-3 mb-3 d-flex align-items-center justify-content-between">
                             <div className="row scale-on-hover">
                                 <div className='col-8 ps-4'>
@@ -43,6 +45,8 @@ const Offer = () => {
                                     <img src="/images/bottom-right.png" alt="Breads" className="img-fluid" />
                                 </div>
                             </div>
+                        </div>
+                        </div>
                         </div>
                     </div>
                 </div>

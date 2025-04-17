@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/useCart';
 import { useWishlist } from '../context/useWishlist';
 
@@ -8,7 +8,6 @@ const URL = import.meta.env.VITE_APP_BACKEND_URL;
 const ProductCard = ({ product }) => {
   const { addToCart, updateQuantity, cartItems, removeFromCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const navigate = useNavigate();
   const [liked, setLiked] = useState(isInWishlist(product._id));
   const [quantity, setQuantity] = useState(0);
 
@@ -57,7 +56,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="card border-1 shadow rounded-4 p-3 product-card my-4">
-      <Link to="" style={{ color: 'black', textDecoration: 'none' }}>
+      <Link to={`/productDetails/${product._id}`} style={{ color: 'black', textDecoration: 'none' }}>
         <div className="position-relative text-center d-flex justify-content-center">
           <img
             src={`${URL}/images/product-images/${product.image}`}

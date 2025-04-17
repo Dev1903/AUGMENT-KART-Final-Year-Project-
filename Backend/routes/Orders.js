@@ -27,7 +27,7 @@ router.post("/createOrder", async (req, res) => {
         products: formattedProducts, // Correctly formatted products array
         totalAmount: totalAmount,
       });
-      console.log(order);
+      // console.log(order);
   
       await order.save();
   
@@ -48,7 +48,7 @@ router.post("/createOrder", async (req, res) => {
   // Get Order by userId
   router.get("/userOrders/:userId", async (req, res) => {
     const userId = req.params.userId;
-    console.log("User ID:", userId);
+    // console.log("User ID:", userId);
   
     try {
       // Convert userId to ObjectId

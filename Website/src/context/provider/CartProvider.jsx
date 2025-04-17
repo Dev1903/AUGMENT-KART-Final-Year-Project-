@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-
+import axios from 'axios';
 export const CartContext = createContext(); // Export CartContext so it can be used by the provider
 
 export const CartProvider = ({ children }) => {
@@ -37,6 +37,24 @@ export const CartProvider = ({ children }) => {
     };
     saveCart();
   }, [cartItems]);
+
+   // Fetch and enrich cart data from backend
+   const fetchEnrichedCartData = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/cart`);
+      console.log('Enriched Cart Data from Backend:', response.data);
+      setCartItems(response.data); // This will replace local cart with Unity's cart
+    } catch (error) {
+      console.error('Error fetching enriched cart data:', error);
+    }
+  };
+  
+  // 🚀 On first load, sync Unity cart to frontend
+  useEffect(() => {
+    fetchEnrichedCartData(); // Only GET, no need to pass anything
+  }, []);
+  
+
 
   const addToCart = (product) => {
     setCartItems((prev) => {

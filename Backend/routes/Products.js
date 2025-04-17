@@ -63,7 +63,7 @@ router.post("/addProduct", productUpload.single("image"), async (req, res) => {
 router.get("/getProduct/:id", async (req, res) => {
     try {
         const productId = req.params.id;
-        //console.log(`PRODUCTID:${productId}`) // Use productId instead of userId
+        console.log(`PRODUCTID:${productId}`)
         const product = await Product.findById(productId); // Fetch product from the database using productId
         if (!product) {
             return res.status(404).json({ message: "Product not found" });

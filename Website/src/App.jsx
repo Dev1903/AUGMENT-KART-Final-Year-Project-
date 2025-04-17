@@ -11,7 +11,7 @@ import { WishlistProvider } from './context/provider/WishlistProvider';
 import ProductDetails from './pages/ProductDetails';
 import ProductsPerCategory from './pages/ProductsPerCategory';
 import Checkout from './pages/Checkout';
-import SignUp from './pages/authPages/SignUp';
+import SearchResultsPage from './pages/SearchResultsPage';
 import { ChakraProvider } from '@chakra-ui/react';
 function App() {
   return (
@@ -29,8 +29,9 @@ function App() {
             <Route path='/wishlist' element={<Wishlist />} />
             <Route path='/cart' element={<Cart />} />
             <Route path='/profile' element={<ProfilePage />} />
-            <Route path='/productDetails' element={<ProductDetails />} />
+            <Route path='/productDetails/:id' element={<ProductDetails />} />
             <Route path='/productsPerCategory/:categoryId/:categoryName' element={<ProductsPerCategory />} />
+            <Route path="/search" element={<SearchResultsPage />} />
             <Route path='/checkout' element={<Checkout />} />
 
           </Routes>

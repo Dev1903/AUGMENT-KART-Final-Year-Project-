@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import {
   Box, Button, Flex, Input, Text, VStack, useDisclosure, Modal,
   ModalOverlay, ModalContent, ModalBody, ModalFooter, ModalHeader,
-  Menu, MenuList, MenuItem, Heading, Divider
+  Menu, MenuList, MenuItem, Heading
 } from '@chakra-ui/react';
 import { getUser, updateUser } from '../api/User_API';
 import { getUserOrders } from '../api/Order_API';
@@ -36,8 +36,13 @@ const WebProfilePage = () => {
   const handleSectionClick = (section) => {
     if (section === 'logout') {
       localStorage.removeItem('token');
-      Notiflix.Notify.success('Logged out');
-      window.location.href = '/';
+      localStorage.removeItem('cart');
+      localStorage.removeItem('wishlist');
+      Notiflix.Notify.success('Successfully Logged Out ! Redirecting...')
+      onClose(); // Redirect to home or dashboard
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 1000);
     } else {
       setActiveSection(section);
     }
@@ -74,14 +79,17 @@ const WebProfilePage = () => {
   }, []);
 
   const hasChanges = useMemo(() => {
+    const trimmedOriginal = originalData?.image?.substring(0, 30); // comparing only part of long base64 string
+    const trimmedCurrent = formData.image?.substring(0, 30);
     return (
       formData.firstName !== originalData?.firstName ||
       formData.lastName !== originalData?.lastName ||
       formData.address !== originalData?.address ||
       formData.mobile !== originalData?.mobile ||
-      formData.image !== originalData?.image
+      (trimmedOriginal !== trimmedCurrent && formData.image !== 'default')
     );
   }, [formData, originalData]);
+  
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -128,23 +136,33 @@ const WebProfilePage = () => {
   const handleUpdate = async () => {
     try {
       const payload = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        address: formData.address,
-        mobile: formData.mobile,
-        image: formData.image !== 'default' ? formData.image : 'default',
-        imageType: formData.image.type || 'image/jpeg'
+        firstName: formData.firstName.trim() || null,
+      lastName: formData.lastName.trim() || null,
+      address: formData.address.trim() === '' ? null : formData.address.trim(),
+      mobile: formData.mobile.trim() === '' ? null : formData.mobile.trim(),
       };
-
-      if (formData.image && formData.image !== 'default') {
-        const base64SizeInBytes = (formData.image.length * (3 / 4)) - (formData.image.endsWith('==') ? 2 : formData.image.endsWith('=') ? 1 : 0);
+  
+      const isBase64Image = formData.image?.startsWith("data:");
+  
+      if (formData.image && formData.image !== 'default' && isBase64Image) {
+        const base64String = formData.image.split(',')[1];
+        const imageType = formData.image.split(';')[0].split(':')[1]; // e.g. image/jpeg
+  
+        // Size check
+        const base64SizeInBytes = (base64String.length * (3 / 4)) - 
+          (base64String.endsWith('==') ? 2 : base64String.endsWith('=') ? 1 : 0);
         const sizeInMB = base64SizeInBytes / (1024 * 1024);
         if (sizeInMB > 5) {
           Notiflix.Notify.failure("Image is too large. Please use a smaller image.");
           return;
         }
+  
+        payload.image = base64String;
+        payload.imageType = imageType;
+      } else if (formData.image === 'default') {
+        payload.image = 'default';
       }
-
+  
       await updateUser(userInfo._id, payload);
       Notiflix.Notify.success('Profile updated');
       window.location.reload();
@@ -154,14 +172,15 @@ const WebProfilePage = () => {
       Notiflix.Notify.failure('Update failed');
     }
   };
+  
 
   const imageURL = imagePreview
-    ? imagePreview
-    : formData.image === 'default'
-      ? null
-      : formData.image.startsWith('data:')
-        ? formData.image
-        : `${URL}/images/user-images/${formData.image}`;
+  ? imagePreview
+  : (formData.image === 'default' || formData.image?.startsWith('data:'))
+    ? null
+    : `${URL}/images/user-images/${formData.image}`;
+
+        console.log(imageURL)
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

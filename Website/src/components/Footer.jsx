@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -8,11 +9,13 @@ const Footer = () => {
 
                     {/* About Section */}
                     <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                        <Link to="/home">
                         <img
                             className="rounded-circle img-fluid footer-logo scale-on-hover"
                             src="/images/logo.png"
                             alt="Logo"
                         />
+                        </Link>
                         <p>
                             Your one-stop shop for fresh groceries and amazing AR experience. Enjoy quality products, fast delivery, and great service!
                         </p>

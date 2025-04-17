@@ -5,9 +5,12 @@ import WebProfileImage from './WebProfileImage';
 const URL = import.meta.env.VITE_APP_BACKEND_URL;
 import Login from '../pages/authPages/Login';
 import SignUp from '../pages/authPages/SignUp';
+import { useCart } from '../context/useCart';
+import SearchBar from './Searchbar';
 
 const Header = () => {
   const navigate = useNavigate();
+  const { cartItems } = useCart();
 
   const [hasUser, setHasUser] = useState(false);
   const handleCloseModals = () => {
@@ -42,14 +45,19 @@ const Header = () => {
         <div className="row align-items-center">
 
           {/* Left: Logo */}
+
           <div className="col-md-3 text-center ">
-            <img
-              className="rounded-circle img-fluid scale-on-hover"
-              src="/images/logo.png"
-              alt="Logo"
-              style={{ height: '80px', width: 'auto', cursor: "pointer" }}
-            />
+            <Link to="/home">
+              <img
+                className="rounded-circle img-fluid scale-on-hover"
+                src="/images/logo.png"
+                alt="Logo"
+                style={{ height: '80px', width: 'auto', cursor: "pointer" }}
+              />
+
+            </Link>
           </div>
+
 
           {/* Center: Navbar + Search */}
           <div className="col-md-6 d-flex justify-content-center">
@@ -84,20 +92,7 @@ const Header = () => {
                   </ul>
 
                   {/* Search Field with Icon */}
-                  <form className="d-flex align-items-center position-relative" role="search" style={{ minWidth: '250px' }}>
-                    <input
-                      className="form-control pe-5"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                    />
-                    <button
-                      className="position-absolute end-0 top-50 translate-middle-y me-2 p-0 border-0 bg-transparent"
-                      type="submit"
-                    >
-                      <i className="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                  </form>
+                  <SearchBar />
                 </div>
               </div>
             </nav>
@@ -105,9 +100,18 @@ const Header = () => {
 
           {/* Right: Icons */}
           <div className="col-md-3 d-flex justify-content-end align-items-center gap-5">
-            <Link to="/cart"><span class="material-symbols-outlined scale-on-hover" style={{ color: "black", paddingTop: "4px" }}>
-              local_mall
-            </span></Link>
+
+            <Link to="/cart">
+              <div>
+                <span class="material-symbols-outlined scale-on-hover" style={{ color: "black", paddingTop: "4px" }}>
+                  local_mall
+                </span>
+                {cartItems.length > 0 && (
+                  <span style={{ backgroundColor: "#4caf50", color: "white", borderRadius: "50%", border: "1px solid black", position: "absolute", top: 35, marginLeft: 15, height: "20px", aspectRatio: "1/1", display: "flex", justifyContent: "center", alignItems: "center", paddingTop: 1 }}>{cartItems.length}</span>
+                )}
+              </div>
+            </Link>
+
             <Link to="/wishlist"><i className="fa-solid fa-heart fa-xl change-color-on-hover" style={{ color: "red" }}></i></Link>
 
             <span

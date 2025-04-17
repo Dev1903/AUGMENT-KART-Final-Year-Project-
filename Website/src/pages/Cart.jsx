@@ -75,8 +75,9 @@ const Cart = () => {
             // Handle success, e.g., navigate to a success page
             console.log('Order created successfully');
             Notiflix.Notify.success(orderResponse.data)
+            clearCart();
             navigate("/home")
-            
+
             // Optionally, you can navigate to a confirmation page or update the UI
           } else {
             console.log('Error creating order on the backend');
@@ -101,7 +102,23 @@ const Cart = () => {
 
   // Function to proceed to payment
   const handleProceedToPayment = async () => {
-    setLoading(true);
+    if (!userInfo) {
+      Notiflix.Notify.failure("Please Login to Continue..")
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000);
+      return;
+    }
+    if(userInfo.address === null){
+      Notiflix.Notify.warning("Please Add your Delivery Address..")
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false)
+        navigate("/profile")
+      }, 1000);
+      return;
+    }
 
 
     try {
@@ -119,12 +136,16 @@ const Cart = () => {
       <Header />
       <div className="container mt-4">
         {cartItems.length > 0 && (
-          <div className="d-flex justify-content-between align-items-center p-3 mb-4">
+          <div className="d-flex justify-content-between align-items-center py-4 mb-4">
             <div>
               <h5>Total Cart Amount: <span className="h2">₹{getTotal()}</span></h5>
             </div>
-            <button className="btn btn-danger" onClick={clearCart}>
-              Clear Cart
+            <button
+              className="btn btn-success"
+              onClick={handleProceedToPayment}
+              disabled={loading}
+            >
+              {loading ? 'Processing...' : 'Proceed to Payment'}
             </button>
           </div>
         )}
@@ -139,22 +160,30 @@ const Cart = () => {
               {cartItems.map((item) => (
                 <div key={item._id}>
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                    <Link
-                      to={`/product/${item._id}`}
-                      className="d-flex text-decoration-none text-black"
-                    >
-                      <img
-                        src={`${URL}/images/product-images/${item.image}`}
-                        alt={item.name}
-                        className="cart-item-img"
-                        style={{ width: '100px', borderRadius: '10px' }}
-                      />
-                      <div className="flex-grow-1 ms-3">
-                        <h4 className="mb-3">{item.name}</h4>
-                        <p className="mb-1">{item.categoryName === 'null' ? '' : item.categoryName}</p>
-                        <h6 className="mb-1">{item.price}</h6>
-                      </div>
-                    </Link>
+
+                    <div className="position-relative me-3">
+                      <button
+                        onClick={() => removeFromCart(item._id)}
+                        className="btn btn-sm btn-danger position-absolute top-0 start-0 rounded-circle"
+                        style={{ zIndex: 2 }}
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                      <Link to={`/productDetails/${item._id}`}>
+                        <img
+                          src={`${URL}/images/product-images/${item.image}`}
+                          alt={item.name}
+                          className="cart-item-img"
+                          style={{ width: '100px', borderRadius: '10px' }}
+                        />
+                      </Link>
+                    </div>
+                    <div className="flex-grow-1 ms-3">
+                      <h4 className="mb-3">{item.name}</h4>
+                      <p className="mb-1">{item.categoryName === 'null' ? '' : item.categoryName}</p>
+                      <h6 className="mb-1">{item.price}</h6>
+                    </div>
+
                     <div className="buttons">
                       <div className="mb-4 h5">
                         ₹{(parseFloat(item.price.match(/[\d.]+/)[0]) * item.quantity).toFixed(2)}
@@ -183,17 +212,6 @@ const Cart = () => {
           </div>
         )}
 
-        {cartItems.length > 0 && (
-          <div className="d-flex justify-content-center mt-4">
-            <button
-              className="btn btn-success"
-              onClick={handleProceedToPayment}
-              disabled={loading}
-            >
-              {loading ? 'Processing...' : 'Proceed to Payment'}
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

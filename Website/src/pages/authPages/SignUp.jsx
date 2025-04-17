@@ -16,12 +16,11 @@ import {
     Text,
     Flex,
 } from '@chakra-ui/react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { addUser } from '../../api/User_API';
 import Notiflix from 'notiflix';
 
 const SignUp = ({ isOpen, onClose, switchToLogin }) => {
-    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         name: '',
@@ -116,19 +115,26 @@ const SignUp = ({ isOpen, onClose, switchToLogin }) => {
             formData.append('password', user.password);
 
             try {
-                const res = await addUser(formData);
-                console.log("SIGNUP",res)
+                console.log(user)
+                const res = await addUser(user);
+                console.log("SIGNUP", res)
                 if (res.status === 201) {
-                    Notiflix.Notify.success(res.message);
                     console.log(res.token)
                     localStorage.setItem("token", res.token);
-                    navigate('/login');
+                    Notiflix.Notify.success('Successfully Registered ! Redirecting to Home...')
+                    onClose(); // Redirect to home or dashboard
+                    setTimeout(() => {
+                        window.location.replace("/home");
+                    }, 1000);
                     setUser({ name: '', email: '', password: '', mobile: '', confirmPassword: '' });
-                    onClose();
                 } else if (res.status === 409) {
                     Notiflix.Notify.warning("User already exists");
-                    navigate('/login');
-                    onClose();
+                    switchToLogin();
+                    setInput("");
+                    setInputEmail("");
+                    setInputMobile("");
+                    setInputPassword("");
+                    setInputConfirmPassword("");
                 } else {
                     Notiflix.Notify.failure("Something went wrong!");
                 }
@@ -203,7 +209,7 @@ const SignUp = ({ isOpen, onClose, switchToLogin }) => {
                                         : <FormHelperText>Looks good!</FormHelperText>}
                                 </FormControl>
 
-                                
+
 
                                 {/* Confirm Password */}
                                 <FormControl isInvalid={isErrorConfirmPassword} mt={4}>
@@ -225,9 +231,9 @@ const SignUp = ({ isOpen, onClose, switchToLogin }) => {
                         <ModalFooter mt={6} justifyContent="space-between">
                             <Text fontSize="sm" align="center" paddingTop="15px">
                                 Already have an account?{' '}
-                                <Link onClick={switchToLogin} style={{color: "#4caf50", textDecoration: "underline"}}>Login</Link>
+                                <Link onClick={switchToLogin} style={{ color: "#4caf50", textDecoration: "underline" }}>Login</Link>
                             </Text>
-                            <Button type="submit" style={{backgroundColor: "#4caf50", color: "white"}} ml={4}>Register</Button>
+                            <Button type="submit" style={{ backgroundColor: "#4caf50", color: "white" }} ml={4}>Register</Button>
                         </ModalFooter>
 
 

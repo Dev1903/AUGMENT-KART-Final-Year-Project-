@@ -5,7 +5,7 @@ import { getUser } from '../api/User_API';
 
 const URL = import.meta.env.VITE_APP_BACKEND_URL;
 
-const WebProfileImage = ({ size }) => {
+const WebProfileImage = ({ size}) => {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const WebProfileImage = ({ size }) => {
           // Show image if it's not default
           <img
             src={`${URL}/images/user-images/${userInfo.image}`}
-            alt="profile"
+            alt={userInfo?.name}
             style={{
               width: '100%',
               height: '100%',

@@ -5,6 +5,7 @@ import Category from '../components/Category';
 
 import BestSeller from '../components/BestSeller';
 import Footer from '../components/Footer';
+import NewlyLaunched from '../components/NewlyLaunched';
 
 const LandingPage = () => {
   return (
@@ -20,6 +21,9 @@ const LandingPage = () => {
       </div>
       <div className="row bestseller pt-5 pb-5">
         <BestSeller />
+      </div>
+      <div className="row newlylaunched pt-5 pb-5">
+        <NewlyLaunched />
       </div>
       <div className="row footer pt-5">
         <Footer />
