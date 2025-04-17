@@ -25,11 +25,5 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  
-  .right {
-    /* min-height: 60px!important; */
-    /* max-height: 100px; */
-    
-    /* object-fit: contain; */
-  }
+
   

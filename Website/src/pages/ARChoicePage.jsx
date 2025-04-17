@@ -14,7 +14,7 @@ const ARChoicePage = () => {
         <div className="ar-choice-container">
             <div className="card text-center shadow p-4 ar-choice-card">
                 <div className="card-body">
-                    <h2 className="card-title mb-4">Welcome to MERN-KART</h2>
+                    <h2 className="card-title mb-4">Welcome to AUGMENT-CART</h2>
                     <p className="card-text mb-4">
                         How you'd like to experience our store?
                     </p>
